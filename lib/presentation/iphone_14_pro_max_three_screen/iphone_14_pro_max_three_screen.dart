@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:phytoscan/core/app_export.dart';
+import 'package:phytoscan/presentation/authservice.dart';
 import 'package:phytoscan/routes/app_routes.dart';
 import 'package:phytoscan/widgets/app_bar/appbar_leading_image.dart';
 import 'package:phytoscan/widgets/app_bar/custom_app_bar.dart';
@@ -15,8 +16,8 @@ class Iphone14ProMaxThreeScreen extends StatefulWidget {
 }
 
 class _Iphone14ProMaxThreeScreenState extends State<Iphone14ProMaxThreeScreen> {
-  TextEditingController fullNameController = TextEditingController();
-
+  TextEditingController EmailController = TextEditingController();
+final AuthService authService = AuthService();
   TextEditingController passwordController = TextEditingController();
 
   bool fullNameColumn = false;
@@ -24,11 +25,30 @@ class _Iphone14ProMaxThreeScreenState extends State<Iphone14ProMaxThreeScreen> {
   bool isChecked = false;
 
   GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-
+   final _signinFormKey = GlobalKey<FormState>();
   void check() {
     setState(() {
       isChecked = !isChecked;
     });
+  }
+  
+    bool signInUser() {
+    authService.signInUser(
+      context: context,
+      email: EmailController.text,
+      password: passwordController.text,
+       callback: (bool success) {
+      if (success) {
+        
+      //onTapTxtRegister(context);
+      print("login Succesfull");
+      } else {
+        
+        print("Password is Incorrect");
+      }
+    },   
+    );
+    return true;
   }
 
   @override
@@ -45,7 +65,7 @@ class _Iphone14ProMaxThreeScreenState extends State<Iphone14ProMaxThreeScreen> {
                 bottom: MediaQuery.of(context).viewInsets.bottom,
               ),
               child: Form(
-                key: _formKey,
+                key:_signinFormKey,
                 child: SizedBox(
                   width: 433.h,
                   child: Column(
@@ -68,8 +88,8 @@ class _Iphone14ProMaxThreeScreenState extends State<Iphone14ProMaxThreeScreen> {
                             Padding(
                               padding: EdgeInsets.only(left: 8.h),
                               child: CustomTextFormField(
-                                controller: fullNameController,
-                                hintText: "Full Name",
+                                controller: EmailController,
+                                hintText: "Email",
                                 prefix: Container(
                                   margin: EdgeInsets.fromLTRB(
                                       12.h, 13.v, 26.h, 13.v),
@@ -117,6 +137,7 @@ class _Iphone14ProMaxThreeScreenState extends State<Iphone14ProMaxThreeScreen> {
                                   CustomTextStyles.headlineSmallWhiteA700,
                               onPressed: () {
                               //  onTapLogin(context);
+                              signInUser();
                               },
                             ),
                             SizedBox(height: 17.v),
@@ -138,7 +159,8 @@ class _Iphone14ProMaxThreeScreenState extends State<Iphone14ProMaxThreeScreen> {
                               buttonTextStyle:
                                   CustomTextStyles.headlineSmallWhiteA700,
                               onPressed: () {
-                                onTapTxtRegister(context);
+                                
+                               onTapTxtRegister(context);
                               },
                             ),
                             SizedBox(height: 17.v),

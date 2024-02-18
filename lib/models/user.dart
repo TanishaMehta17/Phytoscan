@@ -2,34 +2,41 @@ import 'dart:convert';
 
 class User {
   final String id;
-  final String name;
+  final String username;
   final String email;
   final String password;
+  final String number;
+  final String confirmpas;
   final String address;
   final String type;
-  final String token;
+ // final String token;
   final List<dynamic> cart;
 
   User({
     required this.id,
-    required this.name,
+    required this.username,
     required this.email,
     required this.password,
+    required this.number,
+    required this.confirmpas,
     required this.address,
     required this.type,
-    required this.token,
+   // required this.token,
     required this.cart,
+    
   });
 
   Map<String, dynamic> toMap() {
     return {
       'id': id,
-      'name': name,
+      'username': username,
       'email': email,
       'password': password,
+      'number':number,
+      'confirmpas':confirmpas,
       'address': address,
       'type': type,
-      'token': token,
+  //    'token': token,
       'cart': cart,
     };
   }
@@ -37,12 +44,14 @@ class User {
   factory User.fromMap(Map<String, dynamic> map) {
     return User(
       id: map['_id'] ?? '',
-      name: map['name'] ?? '',
+      username: map['username'] ?? '',
       email: map['email'] ?? '',
       password: map['password'] ?? '',
+      number: map['number'] ?? '',
+      confirmpas: map['confirmpas'] ?? '',
       address: map['address'] ?? '',
       type: map['type'] ?? '',
-      token: map['token'] ?? '',
+     // token: map['token'] ?? '',
       cart: List<Map<String, dynamic>>.from(
         map['cart']?.map(
           (x) => Map<String, dynamic>.from(x),
@@ -57,22 +66,26 @@ class User {
 
   User copyWith({
     String? id,
-    String? name,
+    String? username,
     String? email,
     String? password,
+    String? number,
+    String? confirmpas,
     String? address,
     String? type,
-    String? token,
+   // String? token,
     List<dynamic>? cart,
   }) {
     return User(
       id: id ?? this.id,
-      name: name ?? this.name,
+      username: username ?? this.username,
       email: email ?? this.email,
       password: password ?? this.password,
+      number: number ?? this.number,
+      confirmpas: confirmpas ?? this.confirmpas,
       address: address ?? this.address,
       type: type ?? this.type,
-      token: token ?? this.token,
+      //token: token ?? this.token,
       cart: cart ?? this.cart,
     );
   }

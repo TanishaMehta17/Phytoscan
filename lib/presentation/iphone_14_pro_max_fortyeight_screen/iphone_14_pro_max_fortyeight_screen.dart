@@ -40,7 +40,10 @@ final AuthService authService = AuthService();
       context: context,
       email: emailController.text,
       password: passwordController.text,
-      name: registerController.text,
+      username: registerController.text,
+      confirmpas: confirmPasswordController.text,
+      number: phoneController.text,
+      
     );
   }
 

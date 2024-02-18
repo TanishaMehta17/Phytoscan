@@ -4,12 +4,14 @@ import 'package:flutter/material.dart';
 class UserProvider extends ChangeNotifier {
   User _user = User(
     id: '',
-    name: '',
+    username: '',
     email: '',
     password: '',
+    number: '',
+    confirmpas: '',
     address: '',
     type: '',
-    token: '',
+   // token: '',
     cart: [],
   );
 

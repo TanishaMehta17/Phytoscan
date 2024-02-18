@@ -13,17 +13,21 @@ class AuthService{
     required BuildContext context,
     required String email,
     required String password,
-    required String name,
+    required String username,
+    required String confirmpas,
+    required String number
   }) async {
     try {
       User user = User(
         id: '',
-        name: name,
+        username: username,
         password: password,
+        number: number,
+        confirmpas:confirmpas,
         email: email,
         address: '',
         type: '',
-        token: '',
+       // token: '',
         cart: [],
       );
 
@@ -55,10 +59,11 @@ class AuthService{
     required BuildContext context,
     required String email,
     required String password,
+    required OtpVerificationCallback callback,
   }) async {
     try {
       http.Response res = await http.post(
-        Uri.parse('$uri/register'),
+        Uri.parse('$uri/api/signin'),
         body: jsonEncode({
           'email': email,
           'password': password,
@@ -81,6 +86,15 @@ class AuthService{
       //     );
       //   },
       // );
+       print(res.statusCode);
+    if (res.statusCode == 200) {
+      // Successful response
+      callback(true); // Notify the caller about successful OTP verification
+    } 
+    else {
+      // Unsuccessful response
+      callback(false); // Notify the caller about failed OTP verification
+    }
     } catch (e) {
       //showSnackBar(context, e.toString());
       print(e.toString());

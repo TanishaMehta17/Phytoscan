@@ -8,6 +8,7 @@ const nodemailer = require("nodemailer");
 const otpGenerator = require("otp-generator");
 const session = require('express-session');
 const crypto = require('crypto');
+const Admin = require()
 const app = express();
 // SIGN UP
 app.use(session({
@@ -35,12 +36,12 @@ authRouter.post("/register",async(req,res)=>{
   try {
     const { username, email ,number,password,confirmpas } = req.body;
      
-    const existingUser = await User.findOne({ email });
-    if (existingUser) {
-      return res
-        .status(400)
-        .json({ msg: "User with same email already exists!" });
-    }
+    // const existingUser = await User.findOne({ email });
+    // if (existingUser) {
+    //   return res
+    //     .status(400)
+    //     .json({ msg: "User with same email already exists!" });
+    // }
     
     
 
@@ -140,5 +141,50 @@ authRouter.get("/", auth, async (req, res) => {
   const user = await User.findById(req.user);
   res.json({ ...user._doc, token: req.token });
 });
+// authRouter.post("/register",async(req,res)=>{
 
+//   try {
+//     const { username, email ,number,password,confirmpas } = req.body;
+     
+//     // const existingUser = await User.findOne({ email });
+//     // if (existingUser) {
+//     //   return res
+//     //     .status(400)
+//     //     .json({ msg: "User with same email already exists!" });
+//     // }
+    
+    
+
+//     // Send OTP via email
+//     const mailOptions = {
+//       from: "bansalmohit123654@gmail.com",
+//       to: email,
+//       subject: "OTP Verification",
+//       text: `Your OTP for user ${username} is ${OTP}`,
+//     };
+
+//     await transporter.sendMail(mailOptions, function(error, info){
+//       if (error) {
+//         console.log(error);
+//       } else {
+//         console.log('Email sent: ' + info.response);
+//         otpMap.set(email, OTP);
+//       }
+//     });
+//     registrationInfo =  new User ({ 
+//       username,
+//       email,
+//       number,
+//       password,
+//       confirmpas,
+//     });
+//     const hashedPassword = await bcryptjs.hash(password, 8);
+
+//     registrationInfo.password=hashedPassword;
+//     registrationInfo = await registrationInfo.save();
+//     res.status(200).json({ msg: "OTP sent successfully" });
+//   } catch (e) {
+//     res.status(500).json({error:e.message});
+//   }
+// });
 module.exports = authRouter;
