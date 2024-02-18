@@ -36,6 +36,10 @@ const userSchema = mongoose.Schema({
     type: String,
     default: "",
   },
+  gst:{
+    type:String,
+    default:"",
+  },
   type: {
     type: String,
     default: "user",

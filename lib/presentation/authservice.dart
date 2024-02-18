@@ -23,6 +23,7 @@ class AuthService{
         username: username,
         password: password,
         number: number,
+        gst:'',
         confirmpas:confirmpas,
         email: email,
         address: '',
@@ -140,5 +141,100 @@ void otp({
     print(e.toString());
   }
 }
+
+   void TradersignUpUser({
+    required BuildContext context,
+    required String email,
+    required String password,
+    required String username,
+    required String gst,
+    required String confirmpas,
+    required String number
+  }) async {
+    try {
+      User user = User(
+        id: '',
+        username: username,
+        password: password,
+        number: number,
+        gst:gst,
+        confirmpas:confirmpas,
+        email: email,
+        address: '',
+        type: '',
+       // token: '',
+        cart: [],
+      );
+
+      http.Response res = await http.post(
+        Uri.parse('$uri/trader/register'),
+        body: user.toJson(),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+      );
+
+      // httpErrorHandle(
+      //   response: res,
+      //   context: context,
+      //   onSuccess: () {
+      //     showSnackBar(
+      //       context,
+      //       'Account created! Login with the same credentials!',
+      //     );
+      //   },
+      // );
+      
+    } catch (e) {
+      //showSnackBar(context, e.toString());
+      print(e.toString());
+    }
+  }
+
+   void TradersignInUser({
+    required BuildContext context,
+    required String email,
+    required String password,
+    required OtpVerificationCallback callback,
+  }) async {
+    try {
+      http.Response res = await http.post(
+        Uri.parse('$uri/api/signin'),
+        body: jsonEncode({
+          'email': email,
+          'password': password,
+        }),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+      );
+      // httpErrorHandle(
+      //   response: res,
+      //   context: context,
+      //   onSuccess: () async {
+      //     SharedPreferences prefs = await SharedPreferences.getInstance();
+      //     Provider.of<UserProvider>(context, listen: false).setUser(res.body);
+      //     await prefs.setString('x-auth-token', jsonDecode(res.body)['token']);
+      //     Navigator.pushNamedAndRemoveUntil(
+      //       context,
+      //       BottomBar.routeName,
+      //       (route) => false,
+      //     );
+      //   },
+      // );
+       print(res.statusCode);
+    if (res.statusCode == 200) {
+      // Successful response
+      callback(true); // Notify the caller about successful OTP verification
+    } 
+    else {
+      // Unsuccessful response
+      callback(false); // Notify the caller about failed OTP verification
+    }
+    } catch (e) {
+      //showSnackBar(context, e.toString());
+      print(e.toString());
+    }
+  }
 
 }

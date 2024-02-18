@@ -27,7 +27,7 @@ class MyApp extends StatelessWidget {
           theme: theme,
           title: 'mohit_s_application1',
           debugShowCheckedModeBanner: false,
-          initialRoute: AppRoutes.iphone14ProMaxFortyeightScreen,
+          initialRoute: AppRoutes.iphone14ProMaxFourScreen,
           routes: AppRoutes.routes,
         );
       },

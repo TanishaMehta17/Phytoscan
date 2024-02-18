@@ -1,14 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:phytoscan/core/app_export.dart';
+import 'package:phytoscan/presentation/authservice.dart';
 import 'package:phytoscan/routes/app_routes.dart';
 import 'package:phytoscan/widgets/custom_elevated_button.dart';
 import 'package:phytoscan/widgets/custom_text_form_field.dart';
 
 // ignore_for_file: must_be_immutable
-class Iphone14ProMaxFortysevenScreen extends StatelessWidget {
+class Iphone14ProMaxFortysevenScreen extends StatefulWidget {
   Iphone14ProMaxFortysevenScreen({Key? key}) : super(key: key);
 
+  @override
+  State<Iphone14ProMaxFortysevenScreen> createState() => _Iphone14ProMaxFortysevenScreenState();
+}
+
+class _Iphone14ProMaxFortysevenScreenState extends State<Iphone14ProMaxFortysevenScreen> {
   TextEditingController registerController = TextEditingController();
+
+final AuthService authService = AuthService();
 
   TextEditingController emailController = TextEditingController();
 
@@ -22,6 +30,21 @@ class Iphone14ProMaxFortysevenScreen extends StatelessWidget {
 
   GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
+   final _signUpFormKey = GlobalKey<FormState>();
+
+      void TradersignUpUser() {
+    authService.TradersignUpUser(
+      context: context,
+      email: emailController.text,
+      password: passwordController.text,
+      username: registerController.text,
+      gst: priceController.text,
+      confirmpas: confirmPasswordController.text,
+      number: phoneController.text,
+      
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -30,7 +53,7 @@ class Iphone14ProMaxFortysevenScreen extends StatelessWidget {
             resizeToAvoidBottomInset: false,
             //  appBar: _buildAppBar(context),
             body: Form(
-                key: _formKey,
+                key:_signUpFormKey,
                 child: SingleChildScrollView(
                     padding: EdgeInsets.only(top: 5.v),
                     child: Container(
@@ -173,7 +196,11 @@ class Iphone14ProMaxFortysevenScreen extends StatelessWidget {
         buttonStyle: CustomButtonStyles.fillBlueGrayTL25,
         buttonTextStyle: CustomTextStyles.headlineSmallWhiteA700,
         onPressed: () {
-          onTapSendOTP(context);
+            if (_signUpFormKey.currentState!.validate()) {
+                              TradersignUpUser();
+                             onTapSendOTP(context);
+                            }
+          
         });
   }
 
@@ -184,6 +211,6 @@ class Iphone14ProMaxFortysevenScreen extends StatelessWidget {
 
   /// Navigates to the iphone14ProMaxFortysixScreen when the action is triggered.
   onTapSendOTP(BuildContext context) {
-    Navigator.pushNamed(context, AppRoutes.iphone14ProMaxFortysixScreen);
+    Navigator.pushNamed(context, AppRoutes.otp);
   }
 }

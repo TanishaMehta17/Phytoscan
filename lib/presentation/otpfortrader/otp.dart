@@ -4,14 +4,15 @@ import 'package:phytoscan/presentation/authservice.dart';
 import 'package:phytoscan/widgets/custom_elevated_button.dart';
 import 'package:phytoscan/widgets/custom_pin_code_text_field.dart';
 
-class Iphone14ProMaxFortysixScreen extends StatefulWidget {
-  const Iphone14ProMaxFortysixScreen({Key? key}) : super(key: key);
-
+class OTP extends StatefulWidget {
+     static const String routeName = '/otp';
+  const OTP({Key? key}) : super(key: key);
+  
   @override
-  State<Iphone14ProMaxFortysixScreen> createState() => _Iphone14ProMaxFortysixScreenState();
+  State<OTP> createState() => _OTP();
 }
 
-class _Iphone14ProMaxFortysixScreenState extends State<Iphone14ProMaxFortysixScreen> {
+class _OTP extends State<OTP> {
 final AuthService authService = AuthService();
 // ignore: prefer_typing_uninitialized_variables
 var  OTP;
@@ -96,6 +97,6 @@ var  OTP;
   /// Navigates to the iphone14ProMaxNineteenContainerScreen when the action is triggered.
   onTapVerifyOTP(BuildContext context) {
     Navigator.pushNamed(
-        context, AppRoutes.iphone14ProMaxThreeScreen);
+        context, AppRoutes.iphone14ProMaxFourScreen);
   }
 }

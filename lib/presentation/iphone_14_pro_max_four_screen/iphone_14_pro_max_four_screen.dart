@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:phytoscan/core/app_export.dart';
+import 'package:phytoscan/presentation/authservice.dart';
 import 'package:phytoscan/routes/app_routes.dart';
 import 'package:phytoscan/widgets/app_bar/appbar_leading_image.dart';
 import 'package:phytoscan/widgets/app_bar/custom_app_bar.dart';
@@ -15,8 +16,8 @@ class Iphone14ProMaxFourScreen extends StatefulWidget {
 }
 
 class _Iphone14ProMaxFourScreenState extends State<Iphone14ProMaxFourScreen> {
-  TextEditingController fullNameController = TextEditingController();
-
+  TextEditingController EmailController = TextEditingController();
+final AuthService authService = AuthService();
   TextEditingController passwordController = TextEditingController();
 
   bool fullNameColumn = false;
@@ -29,6 +30,24 @@ class _Iphone14ProMaxFourScreenState extends State<Iphone14ProMaxFourScreen> {
     setState(() {
       isChecked = !isChecked;
     });
+  }
+      bool TradersignUser() {
+    authService.TradersignInUser(
+      context: context,
+      email: EmailController.text,
+      password: passwordController.text,
+       callback: (bool success) {
+      if (success) {
+        
+      //onTapTxtRegister(context);
+      print("login Succesfull");
+      } else {
+        
+        print("Password is Incorrect");
+      }
+    },   
+    );
+    return true;
   }
 
   @override
@@ -68,12 +87,12 @@ class _Iphone14ProMaxFourScreenState extends State<Iphone14ProMaxFourScreen> {
                             Padding(
                               padding: EdgeInsets.only(left: 8.h),
                               child: CustomTextFormField(
-                                controller: fullNameController,
-                                hintText: "Full Name",
+                                controller: EmailController,
+                                hintText: "Email",
                                 prefix: Container(
                                   margin: EdgeInsets.fromLTRB(
                                       12.h, 13.v, 26.h, 13.v),
-                                  child: Icon(
+                                  child: const Icon(
                                     Icons.account_circle_rounded,
                                     size: 25.0,
                                   ),
@@ -116,6 +135,7 @@ class _Iphone14ProMaxFourScreenState extends State<Iphone14ProMaxFourScreen> {
                               buttonTextStyle:
                                   CustomTextStyles.headlineSmallWhiteA700,
                               onPressed: () {
+                                TradersignUser();
                                // onTapLogin(context);
                               },
                             ),
@@ -186,11 +206,11 @@ class _Iphone14ProMaxFourScreenState extends State<Iphone14ProMaxFourScreen> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.end,
       children: [
-        Text(
+        const Text(
           "Remember Me?",
           style: TextStyle(color: Color(0xFF426D52), fontSize: 17.0),
         ),
-        SizedBox(width: 10.0),
+       const SizedBox(width: 10.0),
         GestureDetector(
           onTap: check,
           child: Container(
@@ -201,7 +221,7 @@ class _Iphone14ProMaxFourScreenState extends State<Iphone14ProMaxFourScreen> {
               border: Border.all(color: Colors.blueGrey.withOpacity(0.25)),
             ),
             child: isChecked
-                ? Icon(
+                ? const Icon(
                     Icons.check,
                     size: 15.0,
                     color: Colors.white,
