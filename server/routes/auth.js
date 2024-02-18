@@ -6,13 +6,8 @@ const jwt = require("jsonwebtoken");
 const auth = require("../middlewares/auth");
 const nodemailer = require("nodemailer");
 const otpGenerator = require("otp-generator");
-<<<<<<< Updated upstream
 const session = require("express-session");
 const crypto = require("crypto");
-=======
-const session = require('express-session');
-const crypto = require('crypto');
->>>>>>> Stashed changes
 // const Admin = require()
 const app = express();
 // SIGN UP
@@ -36,7 +31,8 @@ const transporter = nodemailer.createTransport({
     },
 });
 // Set up your email configuration
-const OTP = otpGenerator.generate(4, { digits: true, alphabets: false, upperCase: false, specialChars: false, lowerCaseAlphabets: false, upperCaseAlphabets: false });
+
+
 authRouter.post("/register", async (req, res) => {
     try {
         const { username, email, number, password, confirmpas } = req.body;
@@ -47,7 +43,7 @@ authRouter.post("/register", async (req, res) => {
         //     .status(400)
         //     .json({ msg: "User with same email already exists!" });
         // }
-
+        const OTP = otpGenerator.generate(4, { digits: true, alphabets: false, upperCase: false, specialChars: false, lowerCaseAlphabets: false, upperCaseAlphabets: false });
         // Send OTP via email
         const mailOptions = {
             from: "bansalmohit123654@gmail.com",
@@ -56,48 +52,26 @@ authRouter.post("/register", async (req, res) => {
             text: `Your OTP for user ${username} is ${OTP}`,
         };
 
-<<<<<<< Updated upstream
-        const data = {};
-=======
-    
+        const data = {"username":username,"email":email,"number":number,"password":password,"confirmpas":confirmpas};
+        const hashedPassword = await bcryptjs.hash(password, 8);
 
-    await transporter.sendMail(mailOptions, function(error, info){
-      if (error) {
-        console.log(error);
-      } else {
-        console.log('Email sent: ' + info.response);
-        otpMap.set(email, OTP);
-      }
-    });
-    registrationInfo =  new User ({ 
-      username,
-      email,
-      number,
-      password,
-      confirmpas,
-    });
-    const hashedPassword = await bcryptjs.hash(password, 8);
->>>>>>> Stashed changes
+        data.password = hashedPassword;
+        console.log(data)
 
         await transporter.sendMail(mailOptions, function (error, info) {
             if (error) {
                 console.log(error);
             } else {
                 console.log("Email sent: " + info.response);
-                otpMap.set(email, OTP);
+                registrationInfo = new User(data);
+                temp={"OTP":OTP,"object":registrationInfo}
+                console.log(OTP,temp)
+                otpMap.set(email, temp);
             }
         });
-        registrationInfo = new User({
-            username,
-            email,
-            number,
-            password,
-            confirmpas,
-        });
-        const hashedPassword = await bcryptjs.hash(password, 8);
-
-        registrationInfo.password = hashedPassword;
-        registrationInfo = await registrationInfo.save();
+        
+        
+        // registrationInfo = await registrationInfo.save();
         res.status(200).json({ msg: "OTP sent successfully" });
     } catch (e) {
         res.status(500).json({ error: e.message });
@@ -106,12 +80,15 @@ authRouter.post("/register", async (req, res) => {
 
 authRouter.post("/api/signup", async (req, res) => {
     try {
-        const { otp1 } = req.body;
+        const { otp1,email } = req.body;
 
-        if (otp1 != OTP) {
+        temp=otpMap.get(email)
+        console.log()
+
+        if (otp1 != temp.OTP) {
             return res.status(400).json({ msg: "OTP doest not Match" });
         }
-
+        temp.object.save();
         res.status(200).json({ msg: "User registered successfully" });
     } catch (e) {
         res.status(500).json({ error: e.message });
