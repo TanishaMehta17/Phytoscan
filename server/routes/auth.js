@@ -18,30 +18,31 @@ app.use(session({
 let otpMap = new Map();
 
 
+const transporter = nodemailer.createTransport({
+  service: "gmail",
+  secure: false,
+  host: process.env.SMTP_HOST,
+  port: 3000,
+  auth: {
+    user: 'bansalmohit123654@gmail.com',
+    pass: 'kuzo snfe aqdp vlkb',
+  },
+});
 // Set up your email configuration
 const OTP = otpGenerator.generate(4, { digits: true, alphabets: false, upperCase: false, specialChars: false ,lowerCaseAlphabets:false,upperCaseAlphabets:false});
 authRouter.post("/register",async(req,res)=>{
-  const transporter = nodemailer.createTransport({
-    service: "gmail",
-    secure: false,
-    host: process.env.SMTP_HOST,
-    port: 3000,
-    auth: {
-      user: 'bansalmohit123654@gmail.com',
-      pass: 'kuzo snfe aqdp vlkb',
-    },
-  });
+
   try {
     const { username, email ,number,password,confirmpas } = req.body;
      
-    // const existingUser = await User.findOne({ email });
-    // if (existingUser) {
-    //   return res
-    //     .status(400)
-    //     .json({ msg: "User with same email already exists!" });
-    // }
+    const existingUser = await User.findOne({ email });
+    if (existingUser) {
+      return res
+        .status(400)
+        .json({ msg: "User with same email already exists!" });
+    }
     
-    otpMap.set(email, OTP);
+    
 
     // Send OTP via email
     const mailOptions = {
@@ -56,26 +57,21 @@ authRouter.post("/register",async(req,res)=>{
         console.log(error);
       } else {
         console.log('Email sent: ' + info.response);
+        otpMap.set(email, OTP);
       }
     });
-
-    
-    registrationInfo =  new User ({
-     
+    registrationInfo =  new User ({ 
       username,
       email,
       number,
       password,
       confirmpas,
     });
+    const hashedPassword = await bcryptjs.hash(password, 8);
+
+    registrationInfo.password=hashedPassword;
+    registrationInfo = await registrationInfo.save();
     res.status(200).json({ msg: "OTP sent successfully" });
- 
-  
-  
-   
-    
-
-
   } catch (e) {
     res.status(500).json({error:e.message});
   }
@@ -90,13 +86,9 @@ authRouter.post("/api/signup", async (req, res) => {
     
     if(otp1!=OTP){
        return res.status(400).json({msg:"OTP doest not Match"});
-       
     }
    
-    const hashedPassword = await bcryptjs.hash(password, 8);
-
-    registrationInfo.password=hashedPassword;
-    registrationInfo = await registrationInfo.save();
+    
     res.status(200).json({ msg: "User registered successfully" });
   } catch (e) {
     res.status(500).json({ error: e.message });
