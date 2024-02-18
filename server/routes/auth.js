@@ -6,8 +6,13 @@ const jwt = require("jsonwebtoken");
 const auth = require("../middlewares/auth");
 const nodemailer = require("nodemailer");
 const otpGenerator = require("otp-generator");
+<<<<<<< Updated upstream
 const session = require("express-session");
 const crypto = require("crypto");
+=======
+const session = require('express-session');
+const crypto = require('crypto');
+>>>>>>> Stashed changes
 // const Admin = require()
 const app = express();
 // SIGN UP
@@ -51,7 +56,28 @@ authRouter.post("/register", async (req, res) => {
             text: `Your OTP for user ${username} is ${OTP}`,
         };
 
+<<<<<<< Updated upstream
         const data = {};
+=======
+    
+
+    await transporter.sendMail(mailOptions, function(error, info){
+      if (error) {
+        console.log(error);
+      } else {
+        console.log('Email sent: ' + info.response);
+        otpMap.set(email, OTP);
+      }
+    });
+    registrationInfo =  new User ({ 
+      username,
+      email,
+      number,
+      password,
+      confirmpas,
+    });
+    const hashedPassword = await bcryptjs.hash(password, 8);
+>>>>>>> Stashed changes
 
         await transporter.sendMail(mailOptions, function (error, info) {
             if (error) {
