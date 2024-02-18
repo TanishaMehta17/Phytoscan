@@ -158,6 +158,13 @@ class AppNavigationScreen extends StatelessWidget {
                           onTapScreenTitle: () => onTapScreenTitle(context,
                               AppRoutes.iphone14ProMaxFortyeightScreen),
                         ),
+                         _buildScreenTitle(
+                          context,
+                          screenTitle: "otp - trader",
+                          onTapScreenTitle: () => onTapScreenTitle(context,
+                              AppRoutes.otp),
+                        ),
+
                         // _buildScreenTitle(
                         //   context,
                         //   screenTitle: "iPhone 14 Pro Max - ThirtyOne",

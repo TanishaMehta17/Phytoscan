@@ -6,6 +6,7 @@ class User {
   final String email;
   final String password;
   final String number;
+  final String gst;
   final String confirmpas;
   final String address;
   final String type;
@@ -18,6 +19,7 @@ class User {
     required this.email,
     required this.password,
     required this.number,
+    required this.gst,
     required this.confirmpas,
     required this.address,
     required this.type,
@@ -33,6 +35,7 @@ class User {
       'email': email,
       'password': password,
       'number':number,
+      'gst':gst,
       'confirmpas':confirmpas,
       'address': address,
       'type': type,
@@ -48,6 +51,7 @@ class User {
       email: map['email'] ?? '',
       password: map['password'] ?? '',
       number: map['number'] ?? '',
+      gst: map['gst'] ?? '',
       confirmpas: map['confirmpas'] ?? '',
       address: map['address'] ?? '',
       type: map['type'] ?? '',
@@ -70,6 +74,7 @@ class User {
     String? email,
     String? password,
     String? number,
+    String? gst,
     String? confirmpas,
     String? address,
     String? type,
@@ -82,6 +87,7 @@ class User {
       email: email ?? this.email,
       password: password ?? this.password,
       number: number ?? this.number,
+      gst: gst ?? this.gst,
       confirmpas: confirmpas ?? this.confirmpas,
       address: address ?? this.address,
       type: type ?? this.type,
