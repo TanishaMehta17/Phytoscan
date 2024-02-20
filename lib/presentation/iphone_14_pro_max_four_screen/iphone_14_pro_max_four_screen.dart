@@ -17,7 +17,7 @@ class Iphone14ProMaxFourScreen extends StatefulWidget {
 
 class _Iphone14ProMaxFourScreenState extends State<Iphone14ProMaxFourScreen> {
   TextEditingController EmailController = TextEditingController();
-final AuthService authService = AuthService();
+  final AuthService authService = AuthService();
   TextEditingController passwordController = TextEditingController();
 
   bool fullNameColumn = false;
@@ -31,21 +31,20 @@ final AuthService authService = AuthService();
       isChecked = !isChecked;
     });
   }
-      bool TradersignUser() {
+
+  bool TradersignUser() {
     authService.TradersignInUser(
       context: context,
       email: EmailController.text,
       password: passwordController.text,
-       callback: (bool success) {
-      if (success) {
-        
-      //onTapTxtRegister(context);
-      print("login Succesfull");
-      } else {
-        
-        print("Password is Incorrect");
-      }
-    },   
+      callback: (bool success) {
+        if (success) {
+          onTapLogin(context);
+          print("login Succesfull");
+        } else {
+          print("Password is Incorrect");
+        }
+      },
     );
     return true;
   }
@@ -54,7 +53,7 @@ final AuthService authService = AuthService();
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        backgroundColor: Color(0xFFE0EFE2),
+        backgroundColor: const Color(0xFFE0EFE2),
         resizeToAvoidBottomInset: false,
         body: SingleChildScrollView(
           child: SizedBox(
@@ -99,6 +98,15 @@ final AuthService authService = AuthService();
                                 ),
                                 prefixConstraints:
                                     BoxConstraints(maxHeight: 56.v),
+                                     validator: (value) {
+        if (value == null || value.isEmpty) {
+          return 'Email cannot be empty';
+        }
+        else if (!RegExp(r"^[a-zA-Z0-9]+@[a-zA-Z0-9]+\.[a-zA-Z]+").hasMatch(value)) {
+          return 'Enter a valid email address';
+        }
+        return null;
+      },
                                 contentPadding: EdgeInsets.only(
                                     top: 12.v, right: 30.h, bottom: 12.v),
                               ),
@@ -114,13 +122,21 @@ final AuthService authService = AuthService();
                                 prefix: Container(
                                   margin: EdgeInsets.fromLTRB(
                                       11.h, 16.v, 24.h, 15.v),
-                                  child: Icon(
+                                  child: const Icon(
                                     Icons.lock,
                                     size: 25.0,
                                   ),
                                 ),
                                 prefixConstraints:
                                     BoxConstraints(maxHeight: 61.v),
+                                      validator: (value) {
+        if (value == null || value.isEmpty) {
+          return 'Password cannot be empty';
+        } else if (value.length < 6) {
+          return 'Password must be at least 6 characters long';
+        }
+        return null;
+      },
                                 obscureText: true,
                               ),
                             ),
@@ -134,12 +150,20 @@ final AuthService authService = AuthService();
                               buttonStyle: CustomButtonStyles.fillBlueGrayTL25,
                               buttonTextStyle:
                                   CustomTextStyles.headlineSmallWhiteA700,
-                              onPressed: () {
-                                TradersignUser();
-                               // onTapLogin(context);
-                              },
+                              // onPressed: () {
+                              //   TradersignUser();
+                              // },
+                                onPressed:
+                                () {
+                                  //onTapTxtRegister(context);
+                                  if (_formKey.currentState!.validate()) {
+                                    TradersignUser();
+                                  
+                                  }
+                                }
+                              
                             ),
-                            SizedBox(height: 17.v),
+                            SizedBox(height: 10.v),
                             // GestureDetector(
                             //   onTap: () {
                             //     onTapTxtRegister(context);
@@ -150,17 +174,43 @@ final AuthService authService = AuthService();
                             //         CustomTextStyles.titleLargeInterBluegray900,
                             //   ),
                             // ),
-                            CustomElevatedButton(
-                              height: 53.v,
-                              text: "Register",
-                              margin: EdgeInsets.symmetric(horizontal: 14.h),
-                              buttonStyle: CustomButtonStyles.fillBlueGrayTL25,
-                              buttonTextStyle:
-                                  CustomTextStyles.headlineSmallWhiteA700,
-                              onPressed: () {
-                                onTapTxtRegister(context);
-                              },
-                            ),
+                         Padding(
+                           padding: const EdgeInsets.only(left:68.0),
+                           child: Row(
+                             children: [
+                               Text("Don't have an account? ", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15)),
+                               TextButton(
+                                 onPressed: () {
+                                   // Add your button tap logic here
+                                   onTapTxtRegister(context);
+                                 },
+                                 child: Text(
+                                   "Register",
+                                   style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold, color: Color(0xFF426D52)),
+                                 ),
+                               ),
+                             ],
+                           ),
+                         ),
+
+
+                            // CustomElevatedButton(
+                            //   height: 53.v,
+                            //   text: "Register",
+                            //   margin: EdgeInsets.symmetric(horizontal: 14.h),
+                            //   buttonStyle: CustomButtonStyles.fillBlueGrayTL25,
+                            //   buttonTextStyle:
+                            //       CustomTextStyles.headlineSmallWhiteA700,
+                           
+                            //     onPressed:
+                            //     () {
+                            //       //onTapTxtRegister(context);
+                                 
+                            //         onTapTxtRegister(context);
+                            //       }
+                                
+                              
+                            // ),
                             SizedBox(height: 17.v),
                           ],
                         ),
@@ -210,7 +260,7 @@ final AuthService authService = AuthService();
           "Remember Me?",
           style: TextStyle(color: Color(0xFF426D52), fontSize: 17.0),
         ),
-       const SizedBox(width: 10.0),
+        const SizedBox(width: 10.0),
         GestureDetector(
           onTap: check,
           child: Container(
@@ -233,9 +283,9 @@ final AuthService authService = AuthService();
     );
   }
 
-  // void onTapLogin(BuildContext context) {
-  //   Navigator.pushNamed(context, AppRoutes.iphone14ProMaxThirteenScreen);
-  // }
+  void onTapLogin(BuildContext context) {
+    Navigator.pushNamed(context, AppRoutes.iphone14ProMaxNineteenPage);
+  }
 
   void onTapTxtRegister(BuildContext context) {
     Navigator.pushNamed(context, AppRoutes.iphone14ProMaxFortysevenScreen);

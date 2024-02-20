@@ -37,6 +37,16 @@ dependencies:
   smooth_page_indicator: ^1.1.0
   dots_indicator: ^3.0.0
   intl: ^0.18.0
+  provider: ^6.1.1
+  badges: ^3.1.2
+  dotted_border:
+  cloudinary_public:
+  file_picker:
+  qr_flutter:
+  permission_handler:
+  qr_scanner:
+  url_launcher: ^6.2.4
+  shared_preferences:
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.

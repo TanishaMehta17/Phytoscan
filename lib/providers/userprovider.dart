@@ -12,7 +12,7 @@ class UserProvider extends ChangeNotifier {
     confirmpas: '',
     address: '',
     type: '',
-   // token: '',
+    token: '',
     cart: [],
   );
 

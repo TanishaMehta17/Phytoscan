@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:phytoscan/core/app_export.dart';
+import 'package:phytoscan/presentation/iphone_14_pro_max_fortysix_screen/iphone_14_pro_max_fortysix_screen.dart';
 import 'package:phytoscan/routes/app_routes.dart';
 import 'package:phytoscan/widgets/app_bar/appbar_leading_iconbutton.dart';
 import 'package:phytoscan/widgets/app_bar/custom_app_bar.dart';
@@ -140,6 +141,12 @@ final AuthService authService = AuthService();
                 size: 25.0,
               ),
             ),
+            validator: (value) {
+        if (value == null || value.isEmpty) {
+          return 'Full Name cannot be empty';
+        }
+        return null;
+      },
             prefixConstraints: BoxConstraints(maxHeight: 62.v)));
   }
 
@@ -158,7 +165,17 @@ final AuthService authService = AuthService();
                 size: 25.0,
               ),
             ),
-            prefixConstraints: BoxConstraints(maxHeight: 62.v)));
+             validator: (value) {
+        if (value == null || value.isEmpty) {
+          return 'Email cannot be empty';
+        }
+        else if (!RegExp(r"^[a-zA-Z0-9]+@[a-zA-Z0-9]+\.[a-zA-Z]+").hasMatch(value)) {
+          return 'Enter a valid email address';
+        }
+        return null;
+      },
+            prefixConstraints: BoxConstraints(maxHeight: 62.v))
+            );
   }
 
   /// Section Widget
@@ -176,6 +193,14 @@ final AuthService authService = AuthService();
                 size: 25.0,
               ),
             ),
+              validator: (value) {
+        if (value == null || value.isEmpty) {
+          return 'Phone cannot be empty';
+        } else if (value.length != 10) {
+          return 'Phone number must be 10 digits';
+        }
+        return null;
+      },
             prefixConstraints: BoxConstraints(maxHeight: 62.v)));
   }
 
@@ -195,6 +220,14 @@ final AuthService authService = AuthService();
               ),
             ),
             prefixConstraints: BoxConstraints(maxHeight: 62.v),
+              validator: (value) {
+        if (value == null || value.isEmpty) {
+          return 'Password cannot be empty';
+        } else if (value.length < 6) {
+          return 'Password must be at least 6 characters long';
+        }
+        return null;
+      },
             obscureText: true));
   }
 
@@ -214,8 +247,20 @@ final AuthService authService = AuthService();
                 size: 25.0,
               ),
             ),
+            obscureText: true,
             prefixConstraints: BoxConstraints(maxHeight: 62.v),
-            obscureText: true));
+             validator: (value) {
+        if (value == null || value.isEmpty) {
+          return 'Confirm Password cannot be empty';
+        } else if (value.length < 6) {
+          return 'Confirm Password must be at least 6 characters long';
+        } else if (value != passwordController.text) {
+          return 'Passwords do not match';
+        }
+        return null;
+      },
+            
+       ));
   }
 
   /// Section Widget
@@ -242,6 +287,12 @@ final AuthService authService = AuthService();
 
   /// Navigates to the iphone14ProMaxFortysixScreen when the action is triggered.
   onTapSendOTP(BuildContext context) {
-    Navigator.pushNamed(context, AppRoutes.iphone14ProMaxFortysixScreen);
+   // Navigator.pushNamed(context, AppRoutes.iphone14ProMaxFortysixScreen);
+    Navigator.push(
+    context,
+    MaterialPageRoute(
+      builder: (context) => Iphone14ProMaxFortysixScreen( emailController.text.toString()),
+    ),
+  );
   }
 }

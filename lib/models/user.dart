@@ -10,7 +10,7 @@ class User {
   final String confirmpas;
   final String address;
   final String type;
- // final String token;
+  final String token;
   final List<dynamic> cart;
 
   User({
@@ -23,7 +23,7 @@ class User {
     required this.confirmpas,
     required this.address,
     required this.type,
-   // required this.token,
+    required this.token,
     required this.cart,
     
   });
@@ -39,7 +39,7 @@ class User {
       'confirmpas':confirmpas,
       'address': address,
       'type': type,
-  //    'token': token,
+      'token': token,
       'cart': cart,
     };
   }
@@ -55,7 +55,7 @@ class User {
       confirmpas: map['confirmpas'] ?? '',
       address: map['address'] ?? '',
       type: map['type'] ?? '',
-     // token: map['token'] ?? '',
+      token: map['token'] ?? '',
       cart: List<Map<String, dynamic>>.from(
         map['cart']?.map(
           (x) => Map<String, dynamic>.from(x),
@@ -78,7 +78,7 @@ class User {
     String? confirmpas,
     String? address,
     String? type,
-   // String? token,
+    String? token,
     List<dynamic>? cart,
   }) {
     return User(
@@ -91,7 +91,7 @@ class User {
       confirmpas: confirmpas ?? this.confirmpas,
       address: address ?? this.address,
       type: type ?? this.type,
-      //token: token ?? this.token,
+      token: token ?? this.token,
       cart: cart ?? this.cart,
     );
   }

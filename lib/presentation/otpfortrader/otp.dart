@@ -5,14 +5,18 @@ import 'package:phytoscan/widgets/custom_elevated_button.dart';
 import 'package:phytoscan/widgets/custom_pin_code_text_field.dart';
 
 class OTP extends StatefulWidget {
-     static const String routeName = '/otp';
-  const OTP({Key? key}) : super(key: key);
+   static const String routeName = '/otp';
+
+    var email;
+   OTP(this.email,{Key? key}) : super(key: key);
   
   @override
   State<OTP> createState() => _OTP();
 }
 
 class _OTP extends State<OTP> {
+
+
 final AuthService authService = AuthService();
 // ignore: prefer_typing_uninitialized_variables
 var  OTP;
@@ -22,6 +26,7 @@ var  OTP;
     authService.otp(
     context: context,
     otp: OTP,
+    email: widget.email,
     callback: (bool success) {
       if (success) {
         // OTP verification successful, proceed with the next steps
@@ -44,6 +49,7 @@ var  OTP;
   Widget build(BuildContext context) {
     return SafeArea(
         child: Scaffold(
+        
             resizeToAvoidBottomInset: false,
             body: Container(
                 width: double.maxFinite,
@@ -87,7 +93,7 @@ var  OTP;
                       buttonStyle: CustomButtonStyles.fillBlueGrayTL25,
                       buttonTextStyle: CustomTextStyles.headlineSmallWhiteA700,
                       onPressed: () {
-                       
+                    //  print(widget.email);
                         otp();
                       }),
                   const Spacer(flex: 59)

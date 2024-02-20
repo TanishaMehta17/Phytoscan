@@ -6,16 +6,16 @@ const Order = require("../models/order");
 const { PromiseProvider } = require("mongoose");
 
 // Add product
-adminRouter.post("/admin/add-product", admin, async (req, res) => {
+adminRouter.post("/admin/add-product",admin, async (req, res) => {
   try {
-    const { name, description, images, quantity, price, category } = req.body;
+    const { name, description, images, quantity, price } = req.body;
     let product = new Product({
       name,
       description,
       images,
       quantity,
       price,
-      category,
+      //category,
     });
     product = await product.save();
     res.json(product);
@@ -25,7 +25,7 @@ adminRouter.post("/admin/add-product", admin, async (req, res) => {
 });
 
 // Get all your products
-adminRouter.get("/admin/get-products", admin, async (req, res) => {
+adminRouter.get("/admin/get-products",admin, async (req, res) => {
   try {
     const products = await Product.find({});
     res.json(products);
@@ -35,7 +35,7 @@ adminRouter.get("/admin/get-products", admin, async (req, res) => {
 });
 
 // Delete the product
-adminRouter.post("/admin/delete-product", admin, async (req, res) => {
+adminRouter.post("/admin/delete-product", async (req, res) => {
   try {
     const { id } = req.body;
     let product = await Product.findByIdAndDelete(id);

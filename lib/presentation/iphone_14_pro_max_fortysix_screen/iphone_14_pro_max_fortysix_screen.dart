@@ -5,7 +5,8 @@ import 'package:phytoscan/widgets/custom_elevated_button.dart';
 import 'package:phytoscan/widgets/custom_pin_code_text_field.dart';
 
 class Iphone14ProMaxFortysixScreen extends StatefulWidget {
-  const Iphone14ProMaxFortysixScreen({Key? key}) : super(key: key);
+  var email;
+   Iphone14ProMaxFortysixScreen(this.email,{Key? key}) : super(key: key);
 
   @override
   State<Iphone14ProMaxFortysixScreen> createState() => _Iphone14ProMaxFortysixScreenState();
@@ -21,6 +22,7 @@ var  OTP;
     authService.otp(
     context: context,
     otp: OTP,
+    email: widget.email,
     callback: (bool success) {
       if (success) {
         // OTP verification successful, proceed with the next steps

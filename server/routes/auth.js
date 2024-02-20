@@ -37,12 +37,12 @@ authRouter.post("/register", async (req, res) => {
     try {
         const { username, email, number, password, confirmpas } = req.body;
 
-        // const existingUser = await User.findOne({ email });
-        // if (existingUser) {
-        //   return res
-        //     .status(400)
-        //     .json({ msg: "User with same email already exists!" });
-        // }
+        const existingUser = await User.findOne({ email });
+        if (existingUser) {
+          return res
+            .status(400)
+            .json({ msg: "User with same email already exists!" });
+        }
         const OTP = otpGenerator.generate(4, { digits: true, alphabets: false, upperCase: false, specialChars: false, lowerCaseAlphabets: false, upperCaseAlphabets: false });
         // Send OTP via email
         const mailOptions = {
@@ -100,8 +100,9 @@ authRouter.post("/api/signup", async (req, res) => {
 authRouter.post("/api/signin", async (req, res) => {
     try {
         const { email, password } = req.body;
-
-        const user = await User.findOne({ email });
+        console.log(email,password)
+        var user = await User.findOne({ email });
+        console.log(user)
         if (!user) {
             return res.status(400).json({ msg: "User with this email does not exist!" });
         }
@@ -110,11 +111,20 @@ authRouter.post("/api/signin", async (req, res) => {
         if (!isMatch) {
             return res.status(400).json({ msg: "Incorrect password." });
         }
+         console.log("sign");
+        const token = jwt.sign({ id: user._id }, "passwordKey",{"expiresIn":"10m"});
+        delete user["password"]
+        delete user["confirmpas"]
+        user["token"]=token
+        var temp=JSON.stringify({...user._doc,password: undefined,
+            confirmpas: undefined,
+            token: token})
 
-        const token = jwt.sign({ id: user._id }, "passwordKey");
-        res.json({ token, ...user._doc });
+        data={isSuccess:true,"user":temp,"token":token};
+        console.log(data)
+        res.status(200).json(data);
     } catch (e) {
-        res.status(500).json({ error: e.message });
+        res.status(500).json({isSuccess:false, error: e.message });
     }
 });
 
@@ -138,48 +148,52 @@ authRouter.get("/", auth, async (req, res) => {
     const user = await User.findById(req.user);
     res.json({ ...user._doc, token: req.token });
 });
-// authRouter.post("/register",async(req,res)=>{
 
-//   try {
-//     const { username, email ,number,password,confirmpas } = req.body;
 
-//     // const existingUser = await User.findOne({ email });
-//     // if (existingUser) {
-//     //   return res
-//     //     .status(400)
-//     //     .json({ msg: "User with same email already exists!" });
-//     // }
 
-//     // Send OTP via email
-//     const mailOptions = {
-//       from: "bansalmohit123654@gmail.com",
-//       to: email,
-//       subject: "OTP Verification",
-//       text: `Your OTP for user ${username} is ${OTP}`,
-//     };
+authRouter.post("/trader/register", async (req, res) => {
+  try {
+      const { username, email, number, password, confirmpas } = req.body;
 
-//     await transporter.sendMail(mailOptions, function(error, info){
-//       if (error) {
-//         console.log(error);
-//       } else {
-//         console.log('Email sent: ' + info.response);
-//         otpMap.set(email, OTP);
-//       }
-//     });
-//     registrationInfo =  new User ({
-//       username,
-//       email,
-//       number,
-//       password,
-//       confirmpas,
-//     });
-//     const hashedPassword = await bcryptjs.hash(password, 8);
+      const existingUser = await User.findOne({ email });
+      if (existingUser) {
+        return res
+          .status(400)
+          .json({ msg: "User with same email already exists!" });
+      }
+      const OTP = otpGenerator.generate(4, { digits: true, alphabets: false, upperCase: false, specialChars: false, lowerCaseAlphabets: false, upperCaseAlphabets: false });
+      // Send OTP via email
+      const mailOptions = {
+          from: "bansalmohit123654@gmail.com",
+          to: email,
+          subject: "OTP Verification",
+          text: `Your OTP for user ${username} is ${OTP}`,
+      };
 
-//     registrationInfo.password=hashedPassword;
-//     registrationInfo = await registrationInfo.save();
-//     res.status(200).json({ msg: "OTP sent successfully" });
-//   } catch (e) {
-//     res.status(500).json({error:e.message});
-//   }
-// });
+      const data = {"username":username,"email":email,"number":number,"password":password,"confirmpas":confirmpas,"type":"trader"};
+      const hashedPassword = await bcryptjs.hash(password, 8);
+
+      data.password = hashedPassword;
+      console.log(data)
+
+      await transporter.sendMail(mailOptions, function (error, info) {
+          if (error) {
+              console.log(error);
+          } else {
+              console.log("Email sent: " + info.response);
+              registrationInfo = new User(data);
+              temp={"OTP":OTP,"object":registrationInfo}
+              console.log(OTP,temp)
+              otpMap.set(email, temp);
+          }
+      });
+      
+      
+      // registrationInfo = await registrationInfo.save();
+      res.status(200).json({ msg: "OTP sent successfully" });
+  } catch (e) {
+      res.status(500).json({ error: e.message });
+  }
+});
+
 module.exports = authRouter;

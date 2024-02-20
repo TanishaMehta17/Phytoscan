@@ -26,7 +26,7 @@ const userSchema = mongoose.Schema({
   },
   number: {
     required :true,
-    type: Number,
+    type: String,
   },
   confirmpas: {
     required: true,
