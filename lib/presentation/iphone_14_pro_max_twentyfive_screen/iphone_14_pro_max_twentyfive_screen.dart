@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:phytoscan/core/app_export.dart';
+import 'package:phytoscan/models/product.dart';
+import 'package:phytoscan/product/product_services.dart';
 import 'package:phytoscan/widgets/app_bar/appbar_leading_image.dart';
 import 'package:phytoscan/widgets/app_bar/custom_app_bar.dart';
 import 'package:phytoscan/widgets/custom_elevated_button.dart';
@@ -13,6 +15,22 @@ class Iphone14ProMaxTwentyfiveScreen extends StatefulWidget {
 }
 
 class _Iphone14ProMaxTwentyfiveScreenState extends State<Iphone14ProMaxTwentyfiveScreen> {
+  late Product _product;
+  @override
+  void initState() {
+    super.initState();
+    // Initialize product with static details
+    _product = Product(
+      name: 'Rose Plant',
+      description: 'It is used for Skin disease and to speed up wound healing',
+      quantity: 1,
+      images: [
+        'C:/Users/ASUS/Desktop/flutter Projects/phytoscan/assets/images/img_rectangle_40_2.png',
+      ],
+      soldBy: "MOHIT",
+      price: 200,
+    );
+  }
   bool isfav=false;
   void change()
   {
@@ -22,6 +40,20 @@ class _Iphone14ProMaxTwentyfiveScreenState extends State<Iphone14ProMaxTwentyfiv
   }
   @override
   Widget build(BuildContext context) {
+    final ProductDetailsServices productDetailsServices =
+        ProductDetailsServices();
+void addToCart() {
+      productDetailsServices.addToCart(
+        context: context,
+        product: _product,
+      );
+      //print("sss");
+      Navigator.pushNamed(
+        context,
+        AppRoutes.cartScreen,
+        arguments: _product,
+      );
+    }
     
     return SafeArea(
         child: Scaffold(
@@ -64,7 +96,8 @@ class _Iphone14ProMaxTwentyfiveScreenState extends State<Iphone14ProMaxTwentyfiv
                             _buildHarmfulEffect(context),
                             SizedBox(height: 37.v),
                             CustomElevatedButton(
-                                text: "Buy Now",
+                                text: "Add To Cart",
+                                onPressed: () => addToCart(),
                                 margin:
                                     EdgeInsets.only(left: 15.h, right: 13.h),
                                 rightIcon: Container(

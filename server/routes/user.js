@@ -4,25 +4,7 @@ const auth = require("../middlewares/auth");
 const Order = require("../models/order");
 const { Product } = require("../models/product");
 const User = require("../models/user");
-userRouter.post("/auth/add-product",auth, async (req, res) => {
-  try {
-    console.log("s");
-    const { name, description, images, quantity, price } = req.body;
-    
-    let product = new Product({
-      name,
-      description,
-      images,
-      quantity,
-      price,
-      //category,
-    });
-    product = await product.save();
-    res.json(product);
-  } catch (e) {
-    res.status(500).json({ error: e.message });
-  }
-});
+
 userRouter.post("/api/add-to-cart", auth, async (req, res) => {
   try {
     const { id } = req.body;
@@ -30,11 +12,14 @@ userRouter.post("/api/add-to-cart", auth, async (req, res) => {
     const product = await Product.findOne({"name":id});
     console.log(product)
     let user = await User.findById(req.user);
-
+    console.log(user)
     if (user.cart.length == 0) {
-      user.cart.push({ product, quantity: 1 });
+      const temp={product,quantity:1}
+      user.cart.push(temp);
       console.log("1 prod")
     } else {
+      const temp={product,quantity:1}
+      console.log(temp)
       let isProductFound = false;
       for (let i = 0; i < user.cart.length; i++) {
         if (user.cart[i].product._id.equals(product._id)) {
@@ -48,7 +33,7 @@ userRouter.post("/api/add-to-cart", auth, async (req, res) => {
         );
         producttt.quantity += 1;
       } else {
-        user.cart.push({ product, quantity: 1 });
+        user.cart.push(temp);
       }
     }
     console.log(user);
@@ -139,5 +124,15 @@ userRouter.get("/api/orders/me", auth, async (req, res) => {
     res.status(500).json({ error: e.message });
   }
 });
-
+userRouter.get("/auth/get-products",auth, async (req, res) => {
+  try {
+    //const {user}=req.body;
+   // console.log(user)
+    const products = await Product.find({});
+    console.log(products);
+    res.json(products);
+  } catch (e) {
+    res.status(500).json({ error: e.message });
+  }
+});
 module.exports = userRouter;

@@ -25,7 +25,7 @@ class ProductDetailsServices {
           'x-auth-token': userProvider.user.token,
         },
         body: jsonEncode({
-          'id': product.name!,
+          'id': product.name,
         }),
       );
       User user =

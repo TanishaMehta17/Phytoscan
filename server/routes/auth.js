@@ -112,7 +112,7 @@ authRouter.post("/api/signin", async (req, res) => {
             return res.status(400).json({ msg: "Incorrect password." });
         }
          console.log("sign");
-        const token = jwt.sign({ id: user._id }, "passwordKey",{"expiresIn":"10m"});
+        const token = jwt.sign({ id: user._id }, "passwordKey");
         delete user["password"]
         delete user["confirmpas"]
         user["token"]=token

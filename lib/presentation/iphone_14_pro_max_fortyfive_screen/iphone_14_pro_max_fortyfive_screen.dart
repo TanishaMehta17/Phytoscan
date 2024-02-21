@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:phytoscan/core/app_export.dart';
+import 'package:phytoscan/providers/userprovider.dart';
 import 'package:phytoscan/widgets/custom_icon_button.dart';
+import 'package:provider/provider.dart';
 
 // ignore_for_file: must_be_immutable
 class Iphone14ProMaxFortyfivePage extends StatelessWidget {
@@ -11,6 +13,8 @@ class Iphone14ProMaxFortyfivePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    TextEditingController desc = TextEditingController();
+    final userProvider = Provider.of<UserProvider>(context, listen: false);
     return SafeArea(
       child: Scaffold(
         body: Container(
@@ -22,6 +26,7 @@ class Iphone14ProMaxFortyfivePage extends StatelessWidget {
               child: Column(
                 children: [
                   _buildNineteenStack(context),
+                
                   SizedBox(height: 3.v),
                   Align(
                     alignment: Alignment.centerRight,
@@ -39,41 +44,39 @@ class Iphone14ProMaxFortyfivePage extends StatelessWidget {
                                 Align(
                                   alignment: Alignment.topCenter,
                                   child: Text(
-                                    "Keya Smith",
+                                    userProvider.user.username,
                                     style:
                                         CustomTextStyles.displaySmallGreen90003,
                                   ),
                                 ),
-                               const Icon(
-                                  Icons.location_on_rounded,
-                                  color: Colors.redAccent,
-                                ),
-                                Align(
-                                  alignment: Alignment.bottomCenter,
-                                  child: Text(
-                                    "Noida ,Delhi",
-                                    style: CustomTextStyles
-                                        .headlineSmallDutch801XBdBTBluegray900,
-                                  ),
-                                ),
+                                //SizedBox(height: 50,),
+                                //const Icon(
+                                //   Icons.location_on_rounded,
+                                //   color: Colors.redAccent,
+                                // ),
+                                // Align(
+                                //   alignment: Alignment.bottomCenter,
+                                //   child: Text(
+
+                                //     userProvider.user.email,
+                                //     // style: CustomTextStyles
+                                //     //     .headlineSmallDutch801XBdBTBluegray900,
+                                //     style: const TextStyle(fontSize: 17),
+                                //     maxLines: 2,
+                                //   ),
+                                // ),
                               ],
                             ),
                           ),
-                          Padding(
-                            padding: EdgeInsets.only(
-                              left: 27.h,
-                              top: 14.v,
-                              bottom: 15.v,
+                          Align(
+                            alignment: Alignment.bottomCenter,
+                            child: Text(
+                              userProvider.user.email,
+                              // style: CustomTextStyles
+                              //     .headlineSmallDutch801XBdBTBluegray900,
+                              style: const TextStyle(fontSize: 17),
+                              maxLines: 2,
                             ),
-                            child: CustomIconButton(
-                                height: 50.adaptSize,
-                                width: 50.adaptSize,
-                                padding: EdgeInsets.all(10.h),
-                                decoration: IconButtonStyleHelper.fillGreen,
-                                child:const Icon(
-                                  Icons.gamepad_rounded,
-                                  color: Color(0xFF0A6430),
-                                )),
                           ),
                         ],
                       ),
@@ -86,10 +89,14 @@ class Iphone14ProMaxFortyfivePage extends StatelessWidget {
                       left: 57.h,
                       right: 35.h,
                     ),
-                    child: Text(
-                      "I am a economist who loves\n plants and  like to explore to \nabout of them",
+                    child: TextFormField(
+                      // "I am a economist who loves\n plants and  like to explore to \nabout of them",
+                      controller: desc,
+                      decoration: const InputDecoration(
+                          hintText: "Enter your description"),
+                      textAlign: TextAlign.center,
                       maxLines: 3,
-                      overflow: TextOverflow.ellipsis,
+                      // overflow: TextOverflow.ellipsis,
                       style: theme.textTheme.titleLarge,
                     ),
                   ),
@@ -105,16 +112,17 @@ class Iphone14ProMaxFortyfivePage extends StatelessWidget {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                     const Icon(Icons.add_shopping_cart, color: Color(0xFF0A6430)),
+                      const Icon(Icons.add_shopping_cart,
+                          color: Color(0xFF0A6430)),
                       Padding(
                         padding: EdgeInsets.only(
                           left: 11.h,
                           top: 2.v,
                         ),
-                        child:const Text(
-                          "Buy from your wishlist",
-                          style:  TextStyle(
-                              fontSize: 20, color: Color(0xFF0A6430)),
+                        child: const Text(
+                          "Buy from your ",
+                          style:
+                              TextStyle(fontSize: 20, color: Color(0xFF0A6430)),
                         ),
                       ),
                     ],
@@ -145,29 +153,37 @@ class Iphone14ProMaxFortyfivePage extends StatelessWidget {
 
   /// Section Widget
   Widget _buildNineteenStack(BuildContext context) {
-    return SizedBox(
-      height: 349.v,
-      width: double.maxFinite,
-      child: Stack(
-        alignment: Alignment.bottomCenter,
-        children: [
-          CustomImageView(
-            imagePath: ImageConstant.imgRectangle48,
-            height: 283.v,
-            width: 430.h,
-            alignment: Alignment.topCenter,
-          ),
-          CustomImageView(
-            imagePath: ImageConstant.imgEllipse9187x187,
-            height: 187.adaptSize,
-            width: 187.adaptSize,
-            radius: BorderRadius.circular(
-              93.h,
-            ),
+     final userProvider = Provider.of<UserProvider>(context, listen: false);
+     String email=userProvider.user.email;
+     String name=userProvider.user.username;
+    return Column(
+      children: [
+        SizedBox(
+          height: 349.v,
+          width: double.maxFinite,
+          child: Stack(
             alignment: Alignment.bottomCenter,
+            children: [
+              CustomImageView(
+                imagePath: ImageConstant.imgRectangle48,
+                height: 283.v,
+                width: 430.h,
+                alignment: Alignment.topCenter,
+              ),
+              CustomImageView(
+                imagePath: ImageConstant.imgEllipse9187x187,
+                height: 187.adaptSize,
+                width: 187.adaptSize,
+                radius: BorderRadius.circular(
+                  93.h,
+                ),
+                alignment: Alignment.bottomCenter,
+              ),
+            ],
           ),
-        ],
-      ),
+        ),
+     
+      ],
     );
   }
 
@@ -193,9 +209,9 @@ class Iphone14ProMaxFortyfivePage extends StatelessWidget {
                 "2",
                 style: theme.textTheme.displaySmall,
               ),
-             const Text(
+              const Text(
                 "Purchase",
-                style:  TextStyle(fontSize: 20, color: Color(0xFF0A6430)),
+                style: TextStyle(fontSize: 20, color: Color(0xFF0A6430)),
               ),
             ]),
           ),
@@ -209,7 +225,7 @@ class Iphone14ProMaxFortyfivePage extends StatelessWidget {
               ),
             ),
           ),
-         const Spacer(),
+          const Spacer(),
           Container(
             width: 91.h,
             margin: EdgeInsets.only(
@@ -221,9 +237,9 @@ class Iphone14ProMaxFortyfivePage extends StatelessWidget {
                 "3",
                 style: theme.textTheme.displaySmall,
               ),
-             const Text(
+              const Text(
                 "Wishlist",
-                style:  TextStyle(fontSize: 20, color: Color(0xFF0A6430)),
+                style: TextStyle(fontSize: 20, color: Color(0xFF0A6430)),
               ),
             ]),
           ),
@@ -251,7 +267,7 @@ class Iphone14ProMaxFortyfivePage extends StatelessWidget {
               ),
               const Text(
                 "Challenge",
-                style:  TextStyle(fontSize: 20, color: Color(0xFF0A6430)),
+                style: TextStyle(fontSize: 20, color: Color(0xFF0A6430)),
               ),
             ]),
           ),
@@ -263,7 +279,7 @@ class Iphone14ProMaxFortyfivePage extends StatelessWidget {
   Widget _buildContainer(String title, String imagePath, String textContent) {
     return Container(
       decoration: BoxDecoration(
-        color:const  Color(0xFFE0EFE2),
+        color: const Color(0xFFE0EFE2),
         borderRadius: BorderRadius.circular(28.0),
       ),
       margin: const EdgeInsets.all(15),
@@ -278,14 +294,15 @@ class Iphone14ProMaxFortyfivePage extends StatelessWidget {
               width: 140.0, // Width of the image
               fit: BoxFit.cover,
             ),
-          const  SizedBox(width: 15),
+            const SizedBox(width: 15),
             Padding(
               padding: const EdgeInsets.only(top: 10.0),
               child: Column(
                 children: [
                   Text(
                     title,
-                    style: const TextStyle(fontSize: 25, color: Color(0xFF0F3E12)),
+                    style:
+                        const TextStyle(fontSize: 25, color: Color(0xFF0F3E12)),
                   ),
                   Text(
                     textContent,

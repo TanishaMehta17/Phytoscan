@@ -2,11 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:phytoscan/globalvariable.dart';
 import 'package:phytoscan/core/app_export.dart';
 import 'package:phytoscan/presentation/iphone_14_pro_max_nineteen_page/iphone_14_pro_max_nineteen_page.dart';
+import 'package:phytoscan/providers/userprovider.dart';
 
 import 'package:phytoscan/widgets/custom_bottom_bar.dart';
 import 'package:phytoscan/widgets/custom_elevated_button.dart';
 import 'package:phytoscan/widgets/custom_icon_button.dart';
 import 'package:phytoscan/widgets/custom_text_form_field.dart';
+import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 // ignore_for_file: must_be_immutable
@@ -20,7 +22,9 @@ class Iphone14ProMaxEighteenScreen extends StatelessWidget {
   
   void initiatePhoneCall(String phoneNumber) async {
   String url = 'tel:$phoneNumber';
+  // ignore: deprecated_member_use
   if (await canLaunch(url)) {
+    // ignore: deprecated_member_use
     await launch(url);
   } else {
     throw 'Could not launch $url';
@@ -144,6 +148,7 @@ class Iphone14ProMaxEighteenScreen extends StatelessWidget {
 
   /// Section Widget
   Widget _buildComponentFifty(BuildContext context) {
+    final userProvider = Provider.of<UserProvider>(context, listen: false);
     return Align(
         alignment: Alignment.centerRight,
         child: Padding(
@@ -158,7 +163,7 @@ class Iphone14ProMaxEighteenScreen extends StatelessWidget {
                       child: Stack(alignment: Alignment.bottomLeft, children: [
                         Align(
                             alignment: Alignment.topLeft,
-                            child: Text("Amit Pandya",
+                            child: Text(userProvider.user.username,
                                 style: CustomTextStyles
                                     .displaySmallDMSerifTextGreen90007)),
                         // Icon(Icons.location_city_rounded),
@@ -175,13 +180,14 @@ class Iphone14ProMaxEighteenScreen extends StatelessWidget {
                                         width: 3.adaptSize,
                                         margin: EdgeInsets.only(
                                             top: 48.v, bottom: 16.v),
-                                        child: Icon(Icons.location_on_rounded,
-                                            color: Colors.redAccent, size: 25),
+                                     
+                                        //  Icon(Icons.location_on_rounded,
+                                        //     color: Colors.redAccent, size: 25),
                                       ),
                                       Padding(
                                           padding: EdgeInsets.only(
                                               left: 26.h, top: 42.5.v),
-                                          child: Text("Shimla,India",
+                                          child: Text(userProvider.user.address,
                                               style: CustomTextStyles
                                                   .headlineSmallDutch801XBdBTBluegray900)),
                                       Spacer(),
@@ -292,6 +298,7 @@ class Iphone14ProMaxEighteenScreen extends StatelessWidget {
   //           fillColor: appTheme.green5002));
   // }
   Widget _buildEmailEditText(BuildContext context) {
+    final userProvider = Provider.of<UserProvider>(context, listen: false);
   return Padding(
     padding: EdgeInsets.only(left: 17.h, right: 12.h),
     child: Row(
@@ -306,7 +313,7 @@ class Iphone14ProMaxEighteenScreen extends StatelessWidget {
         SizedBox(width: 10.h), // Adjust the spacing as needed
         Expanded(
           child: Text(
-            "Email:- amitpandya@gmail.com",
+            "Email:- ${userProvider.user.email}",
             style: CustomTextStyles.titleLargeDMSerifTextBlack900,
           ),
         ),
@@ -355,6 +362,7 @@ class Iphone14ProMaxEighteenScreen extends StatelessWidget {
   //           fillColor: appTheme.green5002));
   // }
   Widget _buildPhoneCounterEditText(BuildContext context) {
+    final userProvider = Provider.of<UserProvider>(context, listen: false);
   return Padding(
     padding: EdgeInsets.only(left: 17.h, right: 12.h),
     child: Row(
@@ -366,7 +374,7 @@ class Iphone14ProMaxEighteenScreen extends StatelessWidget {
         SizedBox(width: 10.h), // Adjust the spacing as needed
         Expanded(
           child: Text(
-            "Phone:- 9876987645",
+            "Phone:- ${userProvider.user.number}",
             style: CustomTextStyles.titleLargeDMSerifTextBlack900,
           ),
         ),
@@ -375,6 +383,7 @@ class Iphone14ProMaxEighteenScreen extends StatelessWidget {
   );
 }
 Widget _buildGstNumberButton(BuildContext context) {
+  final userProvider = Provider.of<UserProvider>(context, listen: false);
   return Padding(
     padding: EdgeInsets.only(left: 17.h, right: 12.h),
     child: Row(
@@ -386,7 +395,7 @@ Widget _buildGstNumberButton(BuildContext context) {
         SizedBox(width: 10.h), // Adjust the spacing as needed
         Expanded(
           child: Text(
-            "GST Number:- 22aaaaa0000a1z5",
+            "GST Number:-${userProvider.user.gst}",
             style: CustomTextStyles.titleLargeDMSerifTextBlack900,
           ),
         ),

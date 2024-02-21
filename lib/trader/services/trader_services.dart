@@ -20,7 +20,7 @@ class AdminServices {
     required List<File> images,
   }) async {
     final userProvider = Provider.of<UserProvider>(context, listen: false);
-    print(userProvider.user.token);
+    print(userProvider.user.id);
 
     try {
       final cloudinary = CloudinaryPublic('dvigrju5p', 'wdipybgs');
@@ -39,8 +39,9 @@ class AdminServices {
         quantity: quantity,
         images: imageUrls,
         price: price,
+        soldBy: userProvider.user.id,
       );
-
+      print("TATATA");
       http.Response res = await http.post(
         Uri.parse('$uri/admin/add-product'),
         headers: {
@@ -68,13 +69,17 @@ class AdminServices {
   Future<List<Product>> fetchAllProducts(BuildContext context, {required VoidCallback onSuccess}) async {
   final userProvider = Provider.of<UserProvider>(context, listen: false);
   List<Product> productList = [];
+  print("MOHIT");
   try {
     http.Response res =
-        await http.get(Uri.parse('$uri/admin/get-products'), headers: {
+        await http.post(Uri.parse('$uri/admin/get-products'), headers: {
       'Content-Type': 'application/json; charset=UTF-8',
       'x-auth-token': userProvider.user.token,
-    });
 
+    },body:jsonEncode({
+      "user":userProvider.user.id
+    }));
+    print("BYEEEEEEE");
     httpErrorHandle(
       response: res,
       context: context,

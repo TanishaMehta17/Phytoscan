@@ -1,5 +1,6 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:phytoscan/globalvariable.dart';
 import 'package:phytoscan/loader.dart';
 import 'package:phytoscan/core/app_export.dart';
@@ -16,6 +17,11 @@ import 'package:phytoscan/widgets/app_bar/custom_app_bar.dart';
 import 'package:phytoscan/widgets/custom_search_view.dart';
 import 'package:provider/provider.dart';
 import 'package:badges/badges.dart' as badges;
+import 'package:qr_scanner/qr_scanner.dart';
+
+
+
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Iphone14ProMaxNineteenPage extends StatefulWidget {
   const Iphone14ProMaxNineteenPage({Key? key}) : super(key: key);
@@ -55,12 +61,30 @@ class _Iphone14ProMaxNineteenPage extends State<Iphone14ProMaxNineteenPage> {
   }
 
   void navigateToAddProduct() {
-    Navigator.pushNamed(context, AddProductScreen.routeName);
- 
+    Navigator.pushNamed(context, AddProductScreen.routeName).then((result){
+      print("HELLO123");
+    fetchAllProducts();
+
+    });
   }
 
   @override
   Widget build(BuildContext context) {
+    
+  //            Future _qrScanner() async {
+  //     // print("qr");
+  //   var cameraStatus = await Permission.camera.status;
+  //   if (cameraStatus.isGranted) {
+  //     scanner.FlutterQrScanner qrdata = scanner.FlutterQrScanner();
+  //     //print(qrdata);
+  //   } else {
+  //     var isgrant = await Permission.camera.request();
+  //     if (isgrant.isGranted) {
+  //       scanner.FlutterQrScanner qrdata = scanner.FlutterQrScanner();
+  //       //print(qrdata);
+  //     }
+  //   }
+  // }
     final userCartLen = context.watch<UserProvider>().user.cart.length;
     List<Widget> pages = [
       const Iphone14ProMaxNineteenPage(),
@@ -87,6 +111,9 @@ class _Iphone14ProMaxNineteenPage extends State<Iphone14ProMaxNineteenPage> {
         );
       }
     }
+
+
+
 
     return products == null
         ? const Loader()
@@ -358,6 +385,36 @@ class _Iphone14ProMaxNineteenPage extends State<Iphone14ProMaxNineteenPage> {
   }
 
   PreferredSizeWidget _buildAppBar(BuildContext context) {
+  //        Future _qrScanner() async {
+  //     // print("qr");
+  //   var cameraStatus = await Permission.camera.status;
+  //   if (cameraStatus.isGranted) {
+  //     scanner.FlutterQrScanner qrdata = scanner.FlutterQrScanner();
+  //     //print(qrdata);
+  //   } else {
+  //     var isgrant = await Permission.camera.request();
+  //     if (isgrant.isGranted) {
+  //       scanner.FlutterQrScanner qrdata = scanner.FlutterQrScanner();
+  //       //print(qrdata);
+  //     }
+  //   }
+  // }
+      void logOut(BuildContext context) async {
+    try {
+      SharedPreferences sharedPreferences =
+          await SharedPreferences.getInstance();
+      await sharedPreferences.setString('x-auth-token', '');
+      
+     Navigator.pushNamedAndRemoveUntil(
+  context,
+  AppRoutes.iphone14ProMaxOneScreen,
+  (route) => false,
+);
+
+    } catch (e) {
+      print( e.toString());
+    }
+  }
     return CustomAppBar(
       height: 115.v,
       leadingWidth: 110.h,
@@ -384,6 +441,32 @@ class _Iphone14ProMaxNineteenPage extends State<Iphone14ProMaxNineteenPage> {
         ),
       ),
       actions: [
+        Container(
+                margin:const  EdgeInsets.only(top: 10, right: 10),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(5),
+                  color:const Color(0xFFE7EFE7),
+                ),
+                width: 40,
+                height: 40,
+                child: const Icon(Icons.qr_code),
+               //  IconButton(onPressed: ()=> _qrScanner(), icon: Icon(Icons.qr_code),)
+              ),
+               Container(
+                margin: const EdgeInsets.only(top: 10, right: 10),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(5),
+                  color:const Color(0xFFE7EFE7),
+                ),
+                width: 40,
+                height: 40,
+                child: IconButton(icon :Icon(Icons.logout_rounded),
+                onPressed:(){
+                    logOut(context);
+                }),
+                
+                // Space between containers
+              ),
         Container(
           height: 40.adaptSize,
           width: 40.adaptSize,

@@ -8,13 +8,14 @@ const { PromiseProvider } = require("mongoose");
 // Add product
 adminRouter.post("/admin/add-product",admin, async (req, res) => {
   try {
-    const { name, description, images, quantity, price } = req.body;
+    const { name, description, images, quantity, price, soldBy } = req.body;
     let product = new Product({
       name,
       description,
       images,
       quantity,
       price,
+      soldBy
       //category,
     });
     product = await product.save();
@@ -25,9 +26,12 @@ adminRouter.post("/admin/add-product",admin, async (req, res) => {
 });
 
 // Get all your products
-adminRouter.get("/admin/get-products",admin, async (req, res) => {
+adminRouter.post("/admin/get-products",admin, async (req, res) => {
   try {
-    const products = await Product.find({});
+    const {user}=req.body;
+    console.log(user)
+    const products = await Product.find({soldBy:user});
+    console.log(products);
     res.json(products);
   } catch (e) {
     res.status(500).json({ error: e.message });

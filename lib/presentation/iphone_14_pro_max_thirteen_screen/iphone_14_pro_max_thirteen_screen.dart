@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:phytoscan/cart/cart_screen.dart';
+//
 import 'package:phytoscan/globalvariable.dart';
 import 'package:phytoscan/core/app_export.dart';
+import 'package:phytoscan/models/product.dart';
 import 'package:phytoscan/presentation/iphone_14_pro_max_fortyfive_screen/iphone_14_pro_max_fortyfive_screen.dart';
 import 'package:phytoscan/presentation/iphone_14_pro_max_nineteen_page/iphone_14_pro_max_nineteen_page.dart';
+import 'package:phytoscan/product/product_services.dart';
 import 'package:phytoscan/providers/userprovider.dart';
+import 'package:phytoscan/trader/widgets/single_product.dart';
 import 'package:phytoscan/widgets/custom_search_view.dart';
 import 'package:provider/provider.dart';
 import 'package:badges/badges.dart' as badges;
@@ -23,9 +27,27 @@ class Iphone14ProMaxThirteenScreen extends StatefulWidget {
 
 class _Iphone14ProMaxThirteenScreenState extends State<Iphone14ProMaxThirteenScreen> {
   TextEditingController searchController = TextEditingController();
-
+final ProductDetailsServices productServices = ProductDetailsServices();
+List<Product>? products;
   GlobalKey<NavigatorState> navigatorKey = GlobalKey();
+   @override
+  void initState() {
+    super.initState();
+    fetchAllProducts();
+  }
+  fetchAllProducts() async {
+    products = await productServices.fetchAllProducts(context,onSuccess: () {
+      setState(() {});
+    },);
+    
+  }
+  //    void navigateToAddProduct() {
+  //   Navigator.pushNamed(context, AddProductScreen.routeName).then((result){
+  //    // print("HELLO123");
+  //   fetchAllProducts();
 
+  //   });
+  // }
   @override
   Widget build(BuildContext context) {
     final userCartLen = context.watch<UserProvider>().user.cart.length;
@@ -39,7 +61,7 @@ class _Iphone14ProMaxThirteenScreenState extends State<Iphone14ProMaxThirteenScr
     double bottomBarWidth = 42;
     double bottomBarBorderWidth = 5;
     int _page = 0;
-
+  
     void updatePage(int page) {
       if (page == 0) {
         // Navigate to the home page
@@ -94,7 +116,7 @@ class _Iphone14ProMaxThirteenScreenState extends State<Iphone14ProMaxThirteenScr
       print( e.toString());
     }
   }
-
+ final user = context.watch<UserProvider>().user;
     return SafeArea(
       child: Scaffold(
           appBar: AppBar(
@@ -109,7 +131,7 @@ class _Iphone14ProMaxThirteenScreenState extends State<Iphone14ProMaxThirteenScr
                     width: 50,
                     height: 60,
                   ), // Icon of the app on the left
-                  const SizedBox(width: 28), // Some spacing between the icon and text
+                  const SizedBox(width: 25), // Some spacing between the icon and text
                   Container(
                     margin: const EdgeInsets.only(top: 5),
                     child: Column(
@@ -169,6 +191,8 @@ class _Iphone14ProMaxThirteenScreenState extends State<Iphone14ProMaxThirteenScr
               padding: const EdgeInsets.all(18.0),
               child: Column(
                 children: [
+                 
+            //const SizedBox(height: 10,),
                   Align(
                     alignment: Alignment.centerLeft,
                     child: Padding(
@@ -184,17 +208,71 @@ class _Iphone14ProMaxThirteenScreenState extends State<Iphone14ProMaxThirteenScr
                   Align(
                     alignment: Alignment.centerLeft,
                     child: Padding(
-                      padding: EdgeInsets.only(left: 16.h),
+                      padding: EdgeInsets.only(left: 14.h),
                       child: Text(
                         "My plants",
                         style: CustomTextStyles.headlineMediumGray90002,
                       ),
                     ),
                   ),
-                  ContainerCarousel(),
+                const   ContainerCarousel(),
+                  const SizedBox(height: 10,),
+                   GridView.builder(
+                        shrinkWrap:
+                            true, // Add this line to make the GridView scrollable
+                        physics:
+                         const   NeverScrollableScrollPhysics(), // Prevent GridView from scrolling
+                        itemCount: products!.length,
+                        gridDelegate:
+                            const SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 2,
+                        ),
+                        itemBuilder: (context, index) {
+                          final productData = products![index];
+                          return Column(
+                            children: [
+                              SizedBox(
+                                height: 140,
+                                child: SingleProduct(
+                                  image: productData.images[0],
+                                ),
+                              ),
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
+                                children: [
+                                  Expanded(
+                                    child: Text(
+                                      productData.name,
+                                      textAlign: TextAlign.center,
+                                      style: const TextStyle(
+                                          fontSize: 15,
+                                          fontWeight: FontWeight.bold),
+                                      overflow: TextOverflow.ellipsis,
+                                      maxLines: 2,
+                                    ),
+                                    
+                                  ),
+                                  Text(productData.price.toString())
+                                  
+                                  // IconButton(
+                                  //   onPressed: () =>
+                                  //       deleteProduct(productData, index),
+                                  //   icon: const Icon(
+                                  //     Icons.delete_outline,
+                                  //   ),
+                                  // ),
+                                ],
+                              ),
+                            ],
+                          );
+                        },
+                   ),
+                  const  SizedBox(height: 10,),
                 ],
               ),
             ),
+            
           ),
           bottomNavigationBar: BottomNavigationBar(
             currentIndex: _page,

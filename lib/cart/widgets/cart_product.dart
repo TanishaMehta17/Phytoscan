@@ -22,7 +22,7 @@ class _CartProductState extends State<CartProduct> {
   final CartServices cartServices = CartServices();
 
   void increaseQuantity(Product product) {
-    // print(product.name);
+     print(product.name);
     productDetailsServices.addToCart(
       context: context,
       product: product,
@@ -47,6 +47,7 @@ class _CartProductState extends State<CartProduct> {
         Container(
           margin: const EdgeInsets.symmetric(
             horizontal: 10,
+            vertical: 5,
           ),
           child: Row(
             children: [

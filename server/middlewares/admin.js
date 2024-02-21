@@ -4,6 +4,7 @@ const User = require("../models/user");
 const admin = async (req, res, next) => {
   try {
     const token = req.header("x-auth-token");
+    console.log(token)
     if (!token)
       return res.status(401).json({ msg: "No auth token, access denied" });
 
@@ -18,6 +19,7 @@ const admin = async (req, res, next) => {
     }
     req.user = verified.id;
     req.token = token;
+    console.log("TATATATATa")
     next();
   } catch (err) {
     res.status(500).json({ error: err.message });

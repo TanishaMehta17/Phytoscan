@@ -160,6 +160,7 @@ class AppRoutes {
   //static const addProductScreen = '/add-product';
   static const cartScreen = '/cart-screen';
   static const addressScreen = '/address';
+  //static const userlist ='/userlist';
 
   static Map<String, WidgetBuilder> routes = {
     
@@ -191,8 +192,9 @@ class AppRoutes {
     iphone14ProMaxThirtyeightScreen: (context) =>
        const  Iphone14ProMaxThirtyeightScreen(),
     
-     // addProductScreen: (context) => const AddProductScreen(),
+      addProductScreen: (context) => const AddProductScreen(),
     cartScreen: (context) => const CartScreen(),
+
     iphone14ProMaxThirtynineScreen: (context) =>
        const Iphone14ProMaxThirtynineScreen(),
     iphone14ProMaxFortyScreen: (context) => const Iphone14ProMaxFortyScreen(),
@@ -206,7 +208,7 @@ class AppRoutes {
     //iphone14ProMaxFortyfourScreen: (context) => const Iphone14ProMaxFortyfourScreen(),
     iphone14ProMaxFortyfivePage: (context) => const Iphone14ProMaxFortyfivePage(),
     
-    addProductScreen: (context) => const AddProductScreen(),
+  //  addProductScreen: (context) => const AddProductScreen(),
      iphone14ProMaxOneScreen: (context) => const Iphone14ProMaxOneScreen(),
   iphone14ProMaxThreeScreen: (context)=>  Iphone14ProMaxThreeScreen(),
 frameEightScreen: (context) => const FrameEightScreen(),

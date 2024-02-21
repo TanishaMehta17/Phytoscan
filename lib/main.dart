@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:phytoscan/presentation/authservice.dart';
+import 'package:phytoscan/presentation/iphone_14_pro_max_fortyfive_screen/iphone_14_pro_max_fortyfive_screen.dart';
 import 'package:phytoscan/presentation/iphone_14_pro_max_four_screen/iphone_14_pro_max_four_screen.dart';
 import 'package:phytoscan/presentation/iphone_14_pro_max_nineteen_page/iphone_14_pro_max_nineteen_page.dart';
 import 'package:phytoscan/presentation/iphone_14_pro_max_one_screen/iphone_14_pro_max_one_screen.dart';
@@ -54,10 +55,10 @@ class _MyAppState extends State<MyApp> {
           debugShowCheckedModeBanner: false,
           //initialRoute: AppRoutes.iphone14ProMaxThreeScreen,
           routes: AppRoutes.routes,
-          // home: Provider.of<UserProvider>(context).user.token.isNotEmpty?(
-          //  Provider.of<UserProvider>(context).user.type=="user"?const Iphone14ProMaxThirteenScreen(): Iphone14ProMaxFourScreen())
-          // : const Iphone14ProMaxOneScreen(),
-          home: const Iphone14ProMaxThirteenScreen(),
+          home: Provider.of<UserProvider>(context).user.token.isNotEmpty?(
+           Provider.of<UserProvider>(context).user.type=="user"?const Iphone14ProMaxThirteenScreen(): Iphone14ProMaxNineteenPage())
+          : const Iphone14ProMaxOneScreen(),
+          // home: const Iphone14ProMaxThirteenScreen(),
         );
       },
     );

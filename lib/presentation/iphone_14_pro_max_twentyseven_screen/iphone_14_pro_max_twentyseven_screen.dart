@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:phytoscan/core/app_export.dart';
+import 'package:phytoscan/models/product.dart';
+import 'package:phytoscan/product/product_services.dart';
 import 'package:phytoscan/theme/custom_text_style.dart';
 import 'package:phytoscan/theme/theme_helper.dart';
 import 'package:phytoscan/widgets/custom_elevated_button.dart';
 import 'package:phytoscan/widgets/custom_icon_button.dart';
 import 'package:phytoscan/widgets/custom_image_view.dart';
-
+import 'dart:io';
 class Iphone14ProMaxTwentysevenScreen extends StatefulWidget {
   const Iphone14ProMaxTwentysevenScreen({Key? key}) : super(key: key);
 
@@ -14,6 +16,7 @@ class Iphone14ProMaxTwentysevenScreen extends StatefulWidget {
 }
 
 class _Iphone14ProMaxTwentysevenScreenState extends State<Iphone14ProMaxTwentysevenScreen> {
+  late Product _product;
   bool isfav=false;
   void change()
   {
@@ -22,7 +25,36 @@ class _Iphone14ProMaxTwentysevenScreenState extends State<Iphone14ProMaxTwentyse
     });
   }
   @override
+  void initState() {
+    super.initState();
+    // Initialize product with static details
+    _product = Product(
+      name: 'Ashwagandha',
+      description: 'It is used for Skin disease and to speed up wound healing',
+      quantity: 1,
+      images: [
+        'C:/Users/ASUS/Desktop/flutter Projects/phytoscan/assets/images/img_rectangle_40_2.png',
+      ],
+      soldBy: "MOHIT",
+      price: 200,
+    );
+  }
+  @override
   Widget build(BuildContext context) {
+        final ProductDetailsServices productDetailsServices =
+        ProductDetailsServices();
+void addToCart() {
+      productDetailsServices.addToCart(
+        context: context,
+        product: _product,
+      );
+      //print("sss");
+      Navigator.pushNamed(
+        context,
+        AppRoutes.cartScreen,
+        arguments: _product,
+      );
+    }
     return SafeArea(
         child: Scaffold(
             backgroundColor: appTheme.gray200,
@@ -62,7 +94,7 @@ class _Iphone14ProMaxTwentysevenScreenState extends State<Iphone14ProMaxTwentyse
                             ]),
                             SizedBox(height: 37.v),
                             CustomElevatedButton(
-                                text: "Buy Now",
+                                text: "Add To Cart",
                                 margin:
                                     EdgeInsets.only(left: 15.h, right: 13.h),
                                 rightIcon: Container(
@@ -72,7 +104,8 @@ class _Iphone14ProMaxTwentysevenScreenState extends State<Iphone14ProMaxTwentyse
                                             ImageConstant.imgShoppingcart,
                                         height: 40.adaptSize,
                                         width: 40.adaptSize)),
-                                alignment: Alignment.center),
+                                alignment: Alignment.center,onPressed: () => addToCart(),)
+                                ,
                             SizedBox(height: 10.v)
                           ]))
                 ])))));

@@ -6,6 +6,7 @@ class Product {
   final double quantity;
   final List<String> images;
   final double price;
+  final String soldBy;
   final String? id;
 
   Product({
@@ -14,6 +15,7 @@ class Product {
     required this.quantity,
     required this.images,
     required this.price,
+    required this.soldBy,
     this.id,
   });
 
@@ -24,6 +26,7 @@ class Product {
       'quantity': quantity,
       'images': images,
       'price': price,
+      'soldBy':soldBy,
       'id': id,
     };
   }
@@ -35,6 +38,7 @@ class Product {
       quantity: map['quantity']?.toDouble() ?? 0.0,
       images: List<String>.from(map['images']),
       price: map['price']?.toDouble() ?? 0.0,
+      soldBy: map['soldBy']?? '',
       id: map['_id'],
     );
   }

@@ -10,68 +10,16 @@ import 'package:provider/provider.dart';
 import 'package:http/http.dart' as http;
 import 'package:cloudinary_public/cloudinary_public.dart';
 class ProductDetailsServices {
-  void ADDProduct({
-    required BuildContext context,
-    required String name,
-    required String description,
-    required double price,
-    required double quantity,
-    required List<File> images,
-  }) async {
-    final userProvider = Provider.of<UserProvider>(context, listen: false);
-     print("sss");
-
-    try {
-      final cloudinary = CloudinaryPublic('dvigrju5p', 'wdipybgs');
-      List<String> imageUrls = [];
-       print("helo");
-      for (int i = 0; i < images.length; i++) {
-        CloudinaryResponse res = await cloudinary.uploadFile(
-          CloudinaryFile.fromFile(images[i].path, folder: name),
-        );
-        imageUrls.add(res.secureUrl);
-      }
-
-      Product product = Product(
-        name: name,
-        description: description,
-        quantity: quantity,
-        images: imageUrls,
-        price: price,
-      );
-      print("hello");
-        print(userProvider.user.token);
-      http.Response res = await http.post(
-        Uri.parse('$uri/auth/add-product'),
-        headers: {
-          'Content-Type': 'application/json; charset=UTF-8',
-          'x-auth-token': userProvider.user.token,
-        },
-        body: product.toJson(),
-      );
-
-      httpErrorHandle(
-        response: res,
-        context: context,
-        onSuccess: () {
-          print('Product Added Successfully!');
-          
-          Navigator.pop(context);
-        },
-      );
-    } catch (e) {
-      print(e.toString());
-    }
-  }
+  
   void addToCart({
     required BuildContext context,
     required Product product,
   }) async {
     final userProvider = Provider.of<UserProvider>(context, listen: false);
-    // print(userProvider.user.token);
-    // print(product.name);
-    // print(product.price);
-    // print(product.id);
+    print(userProvider.user.token);
+    print(product.name);
+    print(product.price);
+    //print(product.id);
     try {
      
       http.Response res = await http.post(
@@ -88,6 +36,7 @@ class ProductDetailsServices {
         User user =
               userProvider.user.copyWith(cart: jsonDecode(res.body)['cart']);
           userProvider.setUserFromModel(user);
+          print(userProvider.user.cart);
       // httpErrorHandle(
       //   response: res,
       //   context: context,
@@ -97,6 +46,7 @@ class ProductDetailsServices {
       //     userProvider.setUserFromModel(user);
       //   },
       // );
+      print("ddd");
     } catch (e) {
       print(e.toString());
     }
@@ -193,4 +143,41 @@ class ProductDetailsServices {
   //  showSnackBar(context, e.toString());
   //   }
   // }
+  Future<List<Product>> fetchAllProducts(BuildContext context, {required VoidCallback onSuccess}) async {
+  final userProvider = Provider.of<UserProvider>(context, listen: false);
+  List<Product> productList = [];
+  
+  try {
+    print("hello");
+    http.Response res =
+        await http.get(Uri.parse('$uri/auth/get-products'), headers: {
+      'Content-Type': 'application/json; charset=UTF-8',
+      'x-auth-token': userProvider.user.token,
+
+    }
+    ,
+  
+    );
+    
+    httpErrorHandle(
+      response: res,
+      context: context,
+      onSuccess: () {
+        for (int i = 0; i < jsonDecode(res.body).length; i++) {
+          productList.add(
+            Product.fromJson(
+              jsonEncode(
+                jsonDecode(res.body)[i],
+              ),
+            ),
+          );
+        }
+        onSuccess(); // Call the onSuccess callback here
+      },
+    );
+  } catch (e) {
+    print(e.toString());
+  }
+  return productList;
+}
 }

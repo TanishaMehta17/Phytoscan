@@ -20,25 +20,6 @@ class Iphone14ProMaxTwelveScreen extends StatefulWidget {
 class _Iphone14ProMaxTwelveScreenState
     extends State<Iphone14ProMaxTwelveScreen> {
   late Product _product;
- 
-
-List<File> convertStringsToFiles(List<String> filePaths) {
-  List<File> files = [];
-  for (String path in filePaths) {
-    if (path.isNotEmpty) {
-      File file = File(path);
-      if (file.existsSync()) {
-        files.add(file);
-      } else {
-        print('File does not exist at path: $path');
-        // Handle the case where the file doesn't exist if needed
-      }
-    }
-  }
-  return files;
-}
-
-
   @override
   void initState() {
     super.initState();
@@ -50,6 +31,7 @@ List<File> convertStringsToFiles(List<String> filePaths) {
       images: [
         'C:/Users/ASUS/Desktop/flutter Projects/phytoscan/assets/images/img_rectangle_40_2.png',
       ],
+      soldBy: "MOHIT",
       price: 200,
     );
   }
@@ -63,40 +45,14 @@ void addToCart() {
         context: context,
         product: _product,
       );
+      //print("sss");
       Navigator.pushNamed(
         context,
         AppRoutes.cartScreen,
         arguments: _product,
       );
     }
-    void AddProduct() {
-    
-      productDetailsServices.ADDProduct(
-        context: context,
-        name: 'Jasmine',
-        description:  'It is used for Skin disease and to speed up wound healing',
-        price: double.parse("200"),
-        quantity: double.parse("1"),
-        images: convertStringsToFiles([
-        'C:/Users/ASUS/Desktop/flutter Projects/phytoscan/assets/images/img_rectangle_40_2.png',
-      ],)
-      );
-    addToCart();
-    
-  }
-    
-    // void addToCart() {
-    //   // Access UserProvider to add the product to the cart
-    //   final userProvider = context.read<UserProvider>();
-    //   // Add the entire product to the cart
-    //   userProvider.addToCart(_product);
-    //   // Navigate to the cart screen
-    //   Navigator.pushNamed(
-    //     context,
-    //     AppRoutes.cartScreen,
-    //     arguments: _product,
-    //   );
-    // }
+ 
 
     return SafeArea(
         child: Scaffold(
@@ -158,7 +114,7 @@ void addToCart() {
                             SizedBox(height: 37.v),
                             CustomElevatedButton(
                                 text: "Add To Cart",
-                                onPressed: () => AddProduct(),
+                                onPressed: () => addToCart(),
                                 margin:
                                     EdgeInsets.only(left: 16.h, right: 14.h),
                                 rightIcon: Container(
