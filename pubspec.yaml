@@ -31,6 +31,7 @@ dependencies:
   flutter:
     sdk: flutter
   cached_network_image: ^3.3.0
+  image_picker: ^1.0.7
   flutter_svg: ^2.0.9
   pin_code_fields: ^8.0.1
   carousel_slider: ^4.2.1
@@ -39,6 +40,7 @@ dependencies:
   intl: ^0.18.0
   provider: ^6.1.1
   badges: ^3.1.2
+  pay: ^1.1.2
   dotted_border:
   cloudinary_public:
   file_picker:
@@ -81,6 +83,7 @@ flutter:
     - assets/
     - assets/images/
     - assets/fonts/
+    - assets/gpay.json
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

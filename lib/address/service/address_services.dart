@@ -1,12 +1,12 @@
 import 'dart:convert';
+import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 import 'package:phytoscan/common/error_handling.dart';
 import 'package:phytoscan/globalvariable.dart';
-import 'package:phytoscan/constant/utils.dart';
 import 'package:phytoscan/models/product.dart';
 import 'package:phytoscan/models/user.dart';
 import 'package:phytoscan/providers/userprovider.dart';
-import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
+
 import 'package:provider/provider.dart';
 
 class AddressServices {
@@ -40,7 +40,7 @@ class AddressServices {
         },
       );
     } catch (e) {
-      showSnackBar(context, e.toString());
+    print( e.toString());
     }
   }
 
@@ -68,7 +68,7 @@ class AddressServices {
         response: res,
         context: context,
         onSuccess: () {
-          showSnackBar(context, 'Your order has been placed!');
+          print('Your order has been placed!');
           User user = userProvider.user.copyWith(
             cart: [],
           );
@@ -76,7 +76,7 @@ class AddressServices {
         },
       );
     } catch (e) {
-      showSnackBar(context, e.toString());
+     print( e.toString());
     }
   }
 
@@ -107,7 +107,7 @@ class AddressServices {
         },
       );
     } catch (e) {
-      showSnackBar(context, e.toString());
+      print( e.toString());
     }
   }
 }
