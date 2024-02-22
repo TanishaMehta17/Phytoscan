@@ -4,6 +4,7 @@ const auth = require("../middlewares/auth");
 const Order = require("../models/order");
 const { Product } = require("../models/product");
 const User = require("../models/user");
+const {Plant}=require("../models/plant");
 
 userRouter.post("/api/add-to-cart", auth, async (req, res) => {
   try {
@@ -124,13 +125,42 @@ userRouter.get("/api/orders/me", auth, async (req, res) => {
     res.status(500).json({ error: e.message });
   }
 });
+var i=0;
 userRouter.get("/auth/get-products",auth, async (req, res) => {
   try {
     //const {user}=req.body;
    // console.log(user)
     const products = await Product.find({});
-    console.log(products);
+    console.log("i:",i);i++;
     res.json(products);
+  } catch (e) {
+    res.status(500).json({ error: e.message });
+  }
+});
+userRouter.post("/auth/predict-image",async (req, res) => {
+  try {
+    //const {user}=req.body;
+   // console.log(user)
+   const {url} = req.body;
+   console.log(url)
+   const response=await fetch("http://127.0.0.1:5000/predict",{
+    method:"POST",
+    headers:{
+      "Content-Type":"application/json"
+    },body:JSON.stringify({
+      "url":url
+    })
+      
+   })
+
+    const data = await response.json();
+    if(data){
+      console.log(data.class)
+      const details=await Plant.findOne({"ORIGINAL_NAME":data.class});
+      res.status(200).json({"isSuccess":true,"data":details});
+    }else{
+      res.status(400).json({"isSuccess":false,"data":"Unable to fetch details"})
+    }
   } catch (e) {
     res.status(500).json({ error: e.message });
   }

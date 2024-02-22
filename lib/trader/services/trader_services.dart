@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:phytoscan/common/error_handling.dart';
 import 'package:phytoscan/globalvariable.dart';
+import 'package:phytoscan/models/plant.dart';
 import 'package:phytoscan/models/product.dart';
 import 'package:phytoscan/providers/userprovider.dart';
 import 'package:provider/provider.dart';
@@ -131,6 +132,63 @@ class AdminServices {
     } catch (e) {
       print(e.toString());
     }
+  }
+   
+
+
+    void image({
+    required BuildContext context,
+
+    required List<File> images,
+  }) async {
+      final userProvider = Provider.of<UserProvider>(context, listen: false);
+  
+   
+    print(userProvider.user.id);
+
+    try {
+      final cloudinary = CloudinaryPublic('dvigrju5p', 'wdipybgs');
+      List<String> imageUrls = [];
+       
+      for (int i = 0; i < images.length; i++) {
+        CloudinaryResponse res = await cloudinary.uploadFile(
+          CloudinaryFile.fromFile(images[i].path, folder: "name"),
+        );
+        imageUrls.add(res.secureUrl);
+      }
+      
+     
+      
+      http.Response res = await http.post(
+        Uri.parse('$uri/auth/predict-image'),
+        headers: {
+          'Content-Type': 'application/json; charset=UTF-8',
+          'x-auth-token': userProvider.user.token,
+        },
+        body: jsonEncode(imageUrls),
+      );
+     
+      httpErrorHandle(
+        response: res,
+        context: context,
+        onSuccess: () {
+          if(res.statusCode==200){
+            
+            
+              
+               Plant plant=  Plant.fromJson(jsonEncode(jsonDecode(res.body[1])));
+              
+          
+          } 
+          print('Product Added Successfully!');
+          
+          Navigator.pop(context);
+        },
+      );
+    } catch (e) {
+      print(e.toString());
+    }
+  
   }
 
   // Future<List<Order>> fetchAllOrders(BuildContext context) async {

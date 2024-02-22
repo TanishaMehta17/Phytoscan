@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:phytoscan/cart/cart_screen.dart';
-//
+import 'package:phytoscan/loader.dart';
 import 'package:phytoscan/globalvariable.dart';
 import 'package:phytoscan/core/app_export.dart';
 import 'package:phytoscan/models/product.dart';
@@ -36,8 +36,9 @@ class _Iphone14ProMaxThirteenScreenState
 
   @override
   void initState() {
-    super.initState();
+    
     fetchAllProducts();
+    super.initState();
   }
 
   fetchAllProducts() async {
@@ -139,8 +140,12 @@ class _Iphone14ProMaxThirteenScreenState
       }
     }
 
-    final user = context.watch<UserProvider>().user;
-    return SafeArea(
+
+ 
+//  final user = context.watch<UserProvider>().user;
+ return products==null?const Loader():
+     SafeArea(
+
       child: Scaffold(
           appBar: AppBar(
             title: Container(
