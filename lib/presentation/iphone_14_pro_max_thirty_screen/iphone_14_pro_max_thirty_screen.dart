@@ -31,6 +31,7 @@ class _Iphone14ProMaxThirtyScreenState extends State<Iphone14ProMaxThirtyScreen>
       price: 200,
     );
   }
+ 
   bool isfav=false;
   void change()
   {

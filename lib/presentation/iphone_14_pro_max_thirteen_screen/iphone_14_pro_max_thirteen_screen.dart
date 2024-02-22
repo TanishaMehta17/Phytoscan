@@ -86,21 +86,23 @@ List<Product>? products;
         );
       }
     }
-     Future _qrScanner() async {
-      // print("qr");
-    var cameraStatus = await Permission.camera.status;
-    if (cameraStatus.isGranted) {
-      scanner.FlutterQrScanner qrdata = scanner.FlutterQrScanner();
-      //print(qrdata);
-    } else {
-      var isgrant = await Permission.camera.request();
-      if (isgrant.isGranted) {
-        scanner.FlutterQrScanner qrdata = scanner.FlutterQrScanner();
-        //print(qrdata);
-      }
-    }
+  //    Future _qrScanner() async {
+  //     // print("qr");
+  //   var cameraStatus = await Permission.camera.status;
+  //   if (cameraStatus.isGranted) {
+  //     scanner.FlutterQrScanner qrdata = scanner.FlutterQrScanner();
+  //     //print(qrdata);
+  //   } else {
+  //     var isgrant = await Permission.camera.request();
+  //     if (isgrant.isGranted) {
+  //       scanner.FlutterQrScanner qrdata = scanner.FlutterQrScanner();
+  //       //print(qrdata);
+  //     }
+  //   }
+  // }
+ navigateToCamera(){
+    Navigator.pushNamed(context,AppRoutes.camera);
   }
-
   void logOut(BuildContext context) async {
     try {
       SharedPreferences sharedPreferences =
@@ -169,7 +171,7 @@ List<Product>? products;
                 width: 40,
                 height: 40,
                 child:// const Icon(Icons.qr_code),
-                 IconButton(onPressed: ()=> _qrScanner(), icon: Icon(Icons.qr_code),)
+                 IconButton(onPressed: ()=> navigateToCamera(), icon: Icon(Icons.qr_code),)
               ),
               Container(
                 margin: const EdgeInsets.only(top: 10, right: 10),

@@ -1,6 +1,7 @@
 // import 'dart:js';
 
 import 'package:flutter/material.dart';
+import 'package:phytoscan/camera.dart';
 import 'package:phytoscan/presentation/app_navigation_screen/app_navigation_screen.dart';
 import 'package:phytoscan/presentation/iphone_14_pro_max_one_screen/iphone_14_pro_max_one_screen.dart';
 import 'package:phytoscan/presentation/frame_eight_screen/frame_eight_screen.dart';
@@ -161,12 +162,13 @@ class AppRoutes {
   static const cartScreen = '/cart-screen';
   static const addressScreen = '/address';
   //static const userlist ='/userlist';
+  static const camera='/camera';
 
   static Map<String, WidgetBuilder> routes = {
     
    // iphone14ProMaxFortynineScreen: (context) => Iphone14ProMaxFortynineScreen(),
    // iphone14ProMaxSeventeenScreen: (context) => Iphone14ProMaxSeventeenScreen(),
-    
+    camera:(context)=>CameraScreen(),
     iphone14ProMaxFortytwoScreen: (context) => const Iphone14ProMaxFortytwoScreen(),
     iphone14ProMaxTwentysixScreen: (context) => const Iphone14ProMaxTwentysixScreen(),
     iphone14ProMaxTwentysevenScreen: (context) =>
