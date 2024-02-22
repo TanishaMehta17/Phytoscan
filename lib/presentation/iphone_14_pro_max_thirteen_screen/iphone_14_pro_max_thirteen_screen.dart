@@ -22,24 +22,31 @@ class Iphone14ProMaxThirteenScreen extends StatefulWidget {
   const Iphone14ProMaxThirteenScreen({Key? key}) : super(key: key);
 
   @override
-  State<Iphone14ProMaxThirteenScreen> createState() => _Iphone14ProMaxThirteenScreenState();
+  State<Iphone14ProMaxThirteenScreen> createState() =>
+      _Iphone14ProMaxThirteenScreenState();
 }
 
-class _Iphone14ProMaxThirteenScreenState extends State<Iphone14ProMaxThirteenScreen> {
+class _Iphone14ProMaxThirteenScreenState
+    extends State<Iphone14ProMaxThirteenScreen> {
   TextEditingController searchController = TextEditingController();
-final ProductDetailsServices productServices = ProductDetailsServices();
-List<Product>? products;
+  final ProductDetailsServices productServices = ProductDetailsServices();
+  List<Product>? products;
   GlobalKey<NavigatorState> navigatorKey = GlobalKey();
-   @override
+  late Product _product;
+
+  @override
   void initState() {
     super.initState();
     fetchAllProducts();
   }
+
   fetchAllProducts() async {
-    products = await productServices.fetchAllProducts(context,onSuccess: () {
-      setState(() {});
-    },);
-    
+    products = await productServices.fetchAllProducts(
+      context,
+      onSuccess: () {
+        setState(() {});
+      },
+    );
   }
   //    void navigateToAddProduct() {
   //   Navigator.pushNamed(context, AddProductScreen.routeName).then((result){
@@ -50,6 +57,21 @@ List<Product>? products;
   // }
   @override
   Widget build(BuildContext context) {
+    final ProductDetailsServices productDetailsServices =
+        ProductDetailsServices();
+    void addToCart() {
+      productDetailsServices.addToCart(
+        context: context,
+        product: _product,
+      );
+      //print("sss");
+      Navigator.pushNamed(
+        context,
+        AppRoutes.cartScreen,
+        arguments: _product,
+      );
+    }
+
     final userCartLen = context.watch<UserProvider>().user.cart.length;
 
     List<Widget> pages = [
@@ -61,7 +83,7 @@ List<Product>? products;
     double bottomBarWidth = 42;
     double bottomBarBorderWidth = 5;
     int _page = 0;
-  
+
     void updatePage(int page) {
       if (page == 0) {
         // Navigate to the home page
@@ -85,38 +107,39 @@ List<Product>? products;
         );
       }
     }
-     Future _qrScanner() async {
+
+    Future _qrScanner() async {
       // print("qr");
-    var cameraStatus = await Permission.camera.status;
-    if (cameraStatus.isGranted) {
-      scanner.FlutterQrScanner qrdata = scanner.FlutterQrScanner();
-      //print(qrdata);
-    } else {
-      var isgrant = await Permission.camera.request();
-      if (isgrant.isGranted) {
+      var cameraStatus = await Permission.camera.status;
+      if (cameraStatus.isGranted) {
         scanner.FlutterQrScanner qrdata = scanner.FlutterQrScanner();
         //print(qrdata);
+      } else {
+        var isgrant = await Permission.camera.request();
+        if (isgrant.isGranted) {
+          scanner.FlutterQrScanner qrdata = scanner.FlutterQrScanner();
+          //print(qrdata);
+        }
       }
     }
-  }
 
-  void logOut(BuildContext context) async {
-    try {
-      SharedPreferences sharedPreferences =
-          await SharedPreferences.getInstance();
-      await sharedPreferences.setString('x-auth-token', '');
-      
-     Navigator.pushNamedAndRemoveUntil(
-  context,
-  AppRoutes.iphone14ProMaxOneScreen,
-  (route) => false,
-);
+    void logOut(BuildContext context) async {
+      try {
+        SharedPreferences sharedPreferences =
+            await SharedPreferences.getInstance();
+        await sharedPreferences.setString('x-auth-token', '');
 
-    } catch (e) {
-      print( e.toString());
+        Navigator.pushNamedAndRemoveUntil(
+          context,
+          AppRoutes.iphone14ProMaxOneScreen,
+          (route) => false,
+        );
+      } catch (e) {
+        print(e.toString());
+      }
     }
-  }
- final user = context.watch<UserProvider>().user;
+
+    final user = context.watch<UserProvider>().user;
     return SafeArea(
       child: Scaffold(
           appBar: AppBar(
@@ -131,14 +154,15 @@ List<Product>? products;
                     width: 50,
                     height: 60,
                   ), // Icon of the app on the left
-                  const SizedBox(width: 25), // Some spacing between the icon and text
+                  const SizedBox(
+                      width: 25), // Some spacing between the icon and text
                   Container(
                     margin: const EdgeInsets.only(top: 5),
                     child: Column(
                       children: [
                         const Text(
                           'Phytoscan',
-                          style:  TextStyle(
+                          style: TextStyle(
                             fontSize: 25,
                             color: Color(0xFF1B5820),
                           ),
@@ -159,29 +183,32 @@ List<Product>? products;
             centerTitle: true, // Center the title within the app bar
             actions: [
               Container(
-                margin:const  EdgeInsets.only(top: 10, right: 10),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(5),
-                  color:const Color(0xFFE7EFE7),
-                ),
-                width: 40,
-                height: 40,
-                child:// const Icon(Icons.qr_code),
-                 IconButton(onPressed: ()=> _qrScanner(), icon: Icon(Icons.qr_code),)
-              ),
+                  margin: const EdgeInsets.only(top: 10, right: 10),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(5),
+                    color: const Color(0xFFE7EFE7),
+                  ),
+                  width: 40,
+                  height: 40,
+                  child: // const Icon(Icons.qr_code),
+                      IconButton(
+                    onPressed: () => _qrScanner(),
+                    icon: Icon(Icons.qr_code),
+                  )),
               Container(
                 margin: const EdgeInsets.only(top: 10, right: 10),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(5),
-                  color:const Color(0xFFE7EFE7),
+                  color: const Color(0xFFE7EFE7),
                 ),
                 width: 40,
                 height: 40,
-                child: IconButton(icon :Icon(Icons.logout_rounded),
-                onPressed:(){
-                    logOut(context);
-                }),
-                
+                child: IconButton(
+                    icon: Icon(Icons.logout_rounded),
+                    onPressed: () {
+                      logOut(context);
+                    }),
+
                 // Space between containers
               ),
             ],
@@ -191,8 +218,7 @@ List<Product>? products;
               padding: const EdgeInsets.all(18.0),
               child: Column(
                 children: [
-                 
-            //const SizedBox(height: 10,),
+                  //const SizedBox(height: 10,),
                   Align(
                     alignment: Alignment.centerLeft,
                     child: Padding(
@@ -215,64 +241,96 @@ List<Product>? products;
                       ),
                     ),
                   ),
-                const   ContainerCarousel(),
-                  const SizedBox(height: 10,),
-                   GridView.builder(
-                        shrinkWrap:
-                            true, // Add this line to make the GridView scrollable
-                        physics:
-                         const   NeverScrollableScrollPhysics(), // Prevent GridView from scrolling
-                        itemCount: products!.length,
-                        gridDelegate:
-                            const SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: 2,
-                        ),
-                        itemBuilder: (context, index) {
-                          final productData = products![index];
-                          return Column(
-                            children: [
-                              SizedBox(
-                                height: 140,
-                                child: SingleProduct(
-                                  image: productData.images[0],
-                                ),
-                              ),
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceEvenly,
-                                children: [
-                                  Expanded(
-                                    child: Text(
-                                      productData.name,
-                                      textAlign: TextAlign.center,
-                                      style: const TextStyle(
-                                          fontSize: 15,
-                                          fontWeight: FontWeight.bold),
-                                      overflow: TextOverflow.ellipsis,
-                                      maxLines: 2,
-                                    ),
-                                    
-                                  ),
-                                  Text(productData.price.toString())
-                                  
-                                  // IconButton(
-                                  //   onPressed: () =>
-                                  //       deleteProduct(productData, index),
-                                  //   icon: const Icon(
-                                  //     Icons.delete_outline,
-                                  //   ),
-                                  // ),
-                                ],
-                              ),
+                  const ContainerCarousel(),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        textAlign: TextAlign.center,
+                        "Add these plants \nin your cart",
+                        style:
+                            TextStyle(color: Color(0xFF053418), fontSize: 20),
+                      ),
+                      SizedBox(
+                        width: 10,
+                      ),
+                      Icon(Icons.shopping_cart)
+                    ],
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  GridView.builder(
+                    shrinkWrap:
+                        true, // Add this line to make the GridView scrollable
+                    physics:
+                        const NeverScrollableScrollPhysics(), // Prevent GridView from scrolling
+                    itemCount: products!.length,
+                    gridDelegate:
+                        const SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2,
+                    ),
+                    itemBuilder: (context, index) {
+                      final productData = products![index];
+                      return GestureDetector(
+                        onTap: () {
+                          _product = Product(
+                            name: productData.name,
+                            description:
+                                'It is used for Skin disease and to speed up wound healing',
+                            quantity: 1,
+                            images: [
+                              productData.images[0],
                             ],
+                            soldBy: "MOHIT",
+                            price: 200,
                           );
+                          addToCart();
                         },
-                   ),
-                  const  SizedBox(height: 10,),
+                        child: Column(
+                          children: [
+                            SizedBox(
+                              height: 140,
+                              child: SingleProduct(
+                                image: productData.images[0],
+                              ),
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: [
+                                Expanded(
+                                  child: Text(
+                                    productData.name,
+                                    textAlign: TextAlign.center,
+                                    style: const TextStyle(
+                                        fontSize: 15,
+                                        fontWeight: FontWeight.bold),
+                                    overflow: TextOverflow.ellipsis,
+                                    maxLines: 2,
+                                  ),
+                                ),
+                                Text(productData.price.toString())
+
+                                // IconButton(
+                                //   onPressed: () =>
+                                //       deleteProduct(productData, index),
+                                //   icon: const Icon(
+                                //     Icons.delete_outline,
+                                //   ),
+                                // ),
+                              ],
+                            ),
+                          ],
+                        ),
+                      );
+                    },
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
                 ],
               ),
             ),
-            
           ),
           bottomNavigationBar: BottomNavigationBar(
             currentIndex: _page,
@@ -351,7 +409,7 @@ class _ContainerCarouselState extends State<ContainerCarousel> {
     return SingleChildScrollView(
       child: Column(
         children: [
-         const SizedBox(height: 30),
+          const SizedBox(height: 30),
           CarouselSlider(
             items: [
               _buildContainer(
@@ -367,7 +425,7 @@ class _ContainerCarouselState extends State<ContainerCarousel> {
               autoPlay: true,
               autoPlayInterval: const Duration(seconds: 3),
               aspectRatio: 1.0,
-             // enlargeCenterPage: true,
+              // enlargeCenterPage: true,
               viewportFraction: 1.0,
               height: 150,
             ),
@@ -383,7 +441,7 @@ class _ContainerCarouselState extends State<ContainerCarousel> {
               ),
             ),
           ),
-         const SizedBox(height: 20),
+          const SizedBox(height: 20),
           CarouselSlider(
             items: [
               _buildContainers(
@@ -413,7 +471,7 @@ class _ContainerCarouselState extends State<ContainerCarousel> {
             ],
             options: CarouselOptions(
               autoPlay: true,
-              autoPlayInterval:const Duration(seconds: 3),
+              autoPlayInterval: const Duration(seconds: 3),
               aspectRatio: 2.0,
               //enlargeCenterPage: true,
               viewportFraction: 1.0,
@@ -451,7 +509,7 @@ class _ContainerCarouselState extends State<ContainerCarousel> {
             ],
             options: CarouselOptions(
               autoPlay: true,
-              autoPlayInterval:const  Duration(seconds: 3),
+              autoPlayInterval: const Duration(seconds: 3),
               aspectRatio: 2.0,
               //enlargeCenterPage: true,
               viewportFraction: 1.0,
@@ -459,17 +517,17 @@ class _ContainerCarouselState extends State<ContainerCarousel> {
             ),
           ),
           const SizedBox(height: 30),
-          Padding(
-            padding: const EdgeInsets.only(left: 290),
-            child: GestureDetector(
-              onTap: () {},
-              child: Container(
-                width: 80,
-                height: 80,
-                child: Image.asset('assets/images/chat.jpg'),
-              ),
-            ),
-          )
+          // Padding(
+          //   padding: const EdgeInsets.only(left: 290),
+          //   child: GestureDetector(
+          //     onTap: () {},
+          //     child: Container(
+          //       width: 80,
+          //       height: 80,
+          //       child: Image.asset('assets/images/chat.jpg'),
+          //     ),
+          //   ),
+          // )
         ],
       ),
     );
@@ -478,7 +536,7 @@ class _ContainerCarouselState extends State<ContainerCarousel> {
   Widget _buildContainer(String title, String imagePath, String textContent) {
     return Container(
       decoration: BoxDecoration(
-        color:const Color(0xFFE0EFE2),
+        color: const Color(0xFFE0EFE2),
         borderRadius: BorderRadius.circular(18.0),
       ),
       margin: const EdgeInsets.symmetric(horizontal: 5.0),
@@ -500,7 +558,8 @@ class _ContainerCarouselState extends State<ContainerCarousel> {
                 children: [
                   Text(
                     title,
-                    style: const TextStyle(fontSize: 25, color: Color(0xFF0F3E12)),
+                    style:
+                        const TextStyle(fontSize: 25, color: Color(0xFF0F3E12)),
                   ),
                   Text(
                     textContent,
@@ -579,16 +638,17 @@ class _ContainerCarouselState extends State<ContainerCarousel> {
               },
               child: Container(
                 decoration: BoxDecoration(
-                  color:const  Color(0xFF86AB89),
+                  color: const Color(0xFF86AB89),
                   borderRadius: BorderRadius.circular(20),
                 ),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     _buildInnerContainer(imagePath1),
-                   const  SizedBox(height: 10),
+                    const SizedBox(height: 10),
                     Text(title1,
-                        style: const TextStyle(fontSize: 20, color: Color(0xFF053418))),
+                        style: const TextStyle(
+                            fontSize: 20, color: Color(0xFF053418))),
                   ],
                 ),
               ),
@@ -611,7 +671,8 @@ class _ContainerCarouselState extends State<ContainerCarousel> {
                     _buildInnerContainer(imagePath2),
                     const SizedBox(height: 10),
                     Text(title2,
-                        style: const TextStyle(fontSize: 20, color: Color(0xFF053418))),
+                        style: const TextStyle(
+                            fontSize: 20, color: Color(0xFF053418))),
                   ],
                 ),
               ),
@@ -624,7 +685,7 @@ class _ContainerCarouselState extends State<ContainerCarousel> {
 
   Widget _buildInnerContainer(String imagePath) {
     return Container(
-      decoration:const BoxDecoration(
+      decoration: const BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.only(
           bottomLeft: Radius.circular(40),

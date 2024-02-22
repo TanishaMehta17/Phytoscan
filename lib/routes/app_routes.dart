@@ -1,6 +1,7 @@
 // import 'dart:js';
 
 import 'package:flutter/material.dart';
+import 'package:phytoscan/address/screen/address_screens.dart';
 import 'package:phytoscan/presentation/app_navigation_screen/app_navigation_screen.dart';
 import 'package:phytoscan/presentation/iphone_14_pro_max_one_screen/iphone_14_pro_max_one_screen.dart';
 import 'package:phytoscan/presentation/frame_eight_screen/frame_eight_screen.dart';
@@ -44,29 +45,32 @@ import 'package:phytoscan/presentation/iphone_14_pro_max_thirteen_screen/iphone_
 import 'package:phytoscan/presentation/iphone_14_pro_max_fortyfive_screen/iphone_14_pro_max_fortyfive_screen.dart';
 
 import 'package:phytoscan/trader/screen/add_product_screen.dart';
-import 'package:phytoscan/address/screens/address_screen.dart';
+//import 'package:phytoscan/address/screens/address_screen.dart';
 import 'package:phytoscan/cart/cart_screen.dart';
 import 'package:phytoscan/models/product.dart';
 
-
 class AppRoutes {
   static const String iphone14ProMaxOneScreen = '/iphone_14_pro_max_one_screen';
-  static const String iphone14ProMaxNineteenPage ='/iphone_14_pro_max_nineteen_page';
+  static const String iphone14ProMaxNineteenPage =
+      '/iphone_14_pro_max_nineteen_page';
   static const String iphone14ProMaxFortynineScreen =
       '/iphone_14_pro_max_fortynine_screen';
-  static const String iphone14ProMaxFortyeightScreen='/iphone_14_pro_max_fortyeight_screen.dart';
-  static const String iphone14ProMaxFortysevenScreen='/iphone_14_pro_max_fortyseven_screen.dart';
-  static const String iphone14ProMaxFortysixScreen ='/iphone_14_pro_max_fortysix_screen.dart';
-  static const String iphone14ProMaxFourScreen='/iphone_14_pro_max_four_screen';
-  static const String frameEightScreen='/frame_eight_screen.dart';
-  static const String iphone14ProMaxThreeScreen='/iphone_14_pro_max_three_screen.dart';
+  static const String iphone14ProMaxFortyeightScreen =
+      '/iphone_14_pro_max_fortyeight_screen.dart';
+  static const String iphone14ProMaxFortysevenScreen =
+      '/iphone_14_pro_max_fortyseven_screen.dart';
+  static const String iphone14ProMaxFortysixScreen =
+      '/iphone_14_pro_max_fortysix_screen.dart';
+  static const String iphone14ProMaxFourScreen =
+      '/iphone_14_pro_max_four_screen';
+  static const String frameEightScreen = '/frame_eight_screen.dart';
+  static const String iphone14ProMaxThreeScreen =
+      '/iphone_14_pro_max_three_screen.dart';
 
-  static const String otp='/otp.dart';
- static const String appNavigationScreen = '/app_navigation_screen';
+  static const String otp = '/otp.dart';
+  static const String appNavigationScreen = '/app_navigation_screen';
   static const String iphone14ProMaxSeventeenScreen =
       '/iphone_14_pro_max_seventeen_screen';
-
-
 
   static const String iphone14ProMaxFortytwoScreen =
       '/iphone_14_pro_max_fortytwo_screen';
@@ -80,14 +84,11 @@ class AppRoutes {
   static const String iphone14ProMaxThirtytwoScreen =
       '/iphone_14_pro_max_thirtytwo_screen';
 
-
   static const String iphone14ProMaxTwelveScreen =
       '/iphone_14_pro_max_twelve_screen';
 
   static const String iphone14ProMaxTwentyfiveScreen =
       '/iphone_14_pro_max_twentyfive_screen';
-
-
 
   static const String iphone14ProMaxFortythreeScreen =
       '/iphone_14_pro_max_fortythree_screen';
@@ -113,8 +114,6 @@ class AppRoutes {
   static const String iphone14ProMaxThirtyeightScreen =
       '/iphone_14_pro_max_thirtyeight_screen';
 
-  
-
   static const String iphone14ProMaxThirtyoneScreen =
       '/iphone_14_pro_max_thirtyone_screen';
 
@@ -133,8 +132,6 @@ class AppRoutes {
   static const String iphone14ProMaxTwentyScreen =
       '/iphone_14_pro_max_twenty_screen';
 
-  
-
   static const String iphone14ProMaxNineteenContainerScreen =
       '/iphone_14_pro_max_nineteen_container_screen';
 
@@ -143,8 +140,6 @@ class AppRoutes {
 
   static const String iphone14ProMaxSixteenPage =
       '/iphone_14_pro_max_sixteen_page';
-
-  
 
   static const String iphone14ProMaxFourteenPage =
       '/iphone_14_pro_max_fourteen_page';
@@ -155,7 +150,6 @@ class AppRoutes {
   static const String iphone14ProMaxFortyfourScreen =
       '/iphone_14_pro_max_fortyfour_screen';
 
- 
   static const addProductScreen = '/add-product';
   //static const addProductScreen = '/add-product';
   static const cartScreen = '/cart-screen';
@@ -163,61 +157,76 @@ class AppRoutes {
   //static const userlist ='/userlist';
 
   static Map<String, WidgetBuilder> routes = {
-    
-   // iphone14ProMaxFortynineScreen: (context) => Iphone14ProMaxFortynineScreen(),
-   // iphone14ProMaxSeventeenScreen: (context) => Iphone14ProMaxSeventeenScreen(),
-    
-    iphone14ProMaxFortytwoScreen: (context) => const Iphone14ProMaxFortytwoScreen(),
-    iphone14ProMaxTwentysixScreen: (context) => const Iphone14ProMaxTwentysixScreen(),
+    // iphone14ProMaxFortynineScreen: (context) => Iphone14ProMaxFortynineScreen(),
+    // iphone14ProMaxSeventeenScreen: (context) => Iphone14ProMaxSeventeenScreen(),
+
+    addressScreen: (context) {
+      final String totalAmount =
+          ModalRoute.of(context)?.settings.arguments as String;
+      return AddressScreen(totalAmount: totalAmount);
+    },
+    iphone14ProMaxFortytwoScreen: (context) =>
+        const Iphone14ProMaxFortytwoScreen(),
+    iphone14ProMaxTwentysixScreen: (context) =>
+        const Iphone14ProMaxTwentysixScreen(),
     iphone14ProMaxTwentysevenScreen: (context) =>
-      const  Iphone14ProMaxTwentysevenScreen(),
-    iphone14ProMaxThirtytwoScreen: (context) => const Iphone14ProMaxThirtytwoScreen(),
-   
+        const Iphone14ProMaxTwentysevenScreen(),
+    iphone14ProMaxThirtytwoScreen: (context) =>
+        const Iphone14ProMaxThirtytwoScreen(),
+
     iphone14ProMaxTwelveScreen: (context) => const Iphone14ProMaxTwelveScreen(),
     iphone14ProMaxTwentyfiveScreen: (context) =>
-       const Iphone14ProMaxTwentyfiveScreen(),
-   
-       iphone14ProMaxNineteenPage:(context) => const Iphone14ProMaxNineteenPage(),
-       iphone14ProMaxFortythreeScreen:(context) =>  Iphone14ProMaxFortythreeScreen(),
+        const Iphone14ProMaxTwentyfiveScreen(),
+
+    iphone14ProMaxNineteenPage: (context) => const Iphone14ProMaxNineteenPage(),
+    iphone14ProMaxFortythreeScreen: (context) =>
+        Iphone14ProMaxFortythreeScreen(),
     iphone14ProMaxThirtythreeScreen: (context) =>
-     const   Iphone14ProMaxThirtythreeScreen(),
+        const Iphone14ProMaxThirtythreeScreen(),
     iphone14ProMaxThirtyScreen: (context) => const Iphone14ProMaxThirtyScreen(),
     iphone14ProMaxThirtyfourScreen: (context) =>
         const Iphone14ProMaxThirtyfourScreen(),
     iphone14ProMaxThirtyfiveScreen: (context) =>
         const Iphone14ProMaxThirtyfiveScreen(),
-    iphone14ProMaxThirtysixScreen: (context) => const Iphone14ProMaxThirtysixScreen(),
+    iphone14ProMaxThirtysixScreen: (context) =>
+        const Iphone14ProMaxThirtysixScreen(),
     iphone14ProMaxThirtysevenScreen: (context) =>
         const Iphone14ProMaxThirtysevenScreen(),
     iphone14ProMaxThirtyeightScreen: (context) =>
-       const  Iphone14ProMaxThirtyeightScreen(),
-    
-      addProductScreen: (context) => const AddProductScreen(),
+        const Iphone14ProMaxThirtyeightScreen(),
+
+    addProductScreen: (context) => const AddProductScreen(),
     cartScreen: (context) => const CartScreen(),
 
     iphone14ProMaxThirtynineScreen: (context) =>
-       const Iphone14ProMaxThirtynineScreen(),
+        const Iphone14ProMaxThirtynineScreen(),
     iphone14ProMaxFortyScreen: (context) => const Iphone14ProMaxFortyScreen(),
-    iphone14ProMaxFortyoneScreen: (context) => const Iphone14ProMaxFortyoneScreen(),
+    iphone14ProMaxFortyoneScreen: (context) =>
+        const Iphone14ProMaxFortyoneScreen(),
     iphone14ProMaxEighteenScreen: (context) => Iphone14ProMaxEighteenScreen(),
     //iphone14ProMaxTwentyScreen: (context) => Iphone14ProMaxTwentyScreen(),
     iphone14ProMaxNineteenContainerScreen: (context) =>
         Iphone14ProMaxNineteenContainerScreen(),
-   iphone14ProMaxThirtyoneScreen:(context) => const Iphone14ProMaxThirtyoneScreen(),
-    iphone14ProMaxThirteenScreen: (context) => const Iphone14ProMaxThirteenScreen(),
+    iphone14ProMaxThirtyoneScreen: (context) =>
+        const Iphone14ProMaxThirtyoneScreen(),
+    iphone14ProMaxThirteenScreen: (context) =>
+        const Iphone14ProMaxThirteenScreen(),
     //iphone14ProMaxFortyfourScreen: (context) => const Iphone14ProMaxFortyfourScreen(),
-    iphone14ProMaxFortyfivePage: (context) => const Iphone14ProMaxFortyfivePage(),
-    
-  //  addProductScreen: (context) => const AddProductScreen(),
-     iphone14ProMaxOneScreen: (context) => const Iphone14ProMaxOneScreen(),
-  iphone14ProMaxThreeScreen: (context)=>  Iphone14ProMaxThreeScreen(),
-frameEightScreen: (context) => const FrameEightScreen(),
-iphone14ProMaxFourScreen:(context) => Iphone14ProMaxFourScreen(),
-iphone14ProMaxFortyeightScreen:(context) =>const  Iphone14ProMaxFortyeightScreen(),
-appNavigationScreen: (context) => const AppNavigationScreen(),
-iphone14ProMaxFortysevenScreen: (context)=>Iphone14ProMaxFortysevenScreen(),
-otp:(context) =>  OTP(String),
-iphone14ProMaxFortysixScreen:(context)=> Iphone14ProMaxFortysixScreen(String),
+    iphone14ProMaxFortyfivePage: (context) =>
+        const Iphone14ProMaxFortyfivePage(),
+
+    //  addProductScreen: (context) => const AddProductScreen(),
+    iphone14ProMaxOneScreen: (context) => const Iphone14ProMaxOneScreen(),
+    iphone14ProMaxThreeScreen: (context) => Iphone14ProMaxThreeScreen(),
+    frameEightScreen: (context) => const FrameEightScreen(),
+    iphone14ProMaxFourScreen: (context) => Iphone14ProMaxFourScreen(),
+    iphone14ProMaxFortyeightScreen: (context) =>
+        const Iphone14ProMaxFortyeightScreen(),
+    appNavigationScreen: (context) => const AppNavigationScreen(),
+    iphone14ProMaxFortysevenScreen: (context) =>
+        Iphone14ProMaxFortysevenScreen(),
+    otp: (context) => OTP(String),
+    iphone14ProMaxFortysixScreen: (context) =>
+        Iphone14ProMaxFortysixScreen(String),
   };
 }
-

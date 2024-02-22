@@ -1,11 +1,11 @@
-import 'package:phytoscan/constant/utils.dart';
-import 'package:phytoscan/address/services/address_services.dart';
 import 'package:flutter/material.dart';
-//import 'package:pay/pay.dart';
-import 'package:provider/provider.dart';
+import 'package:pay/pay.dart';
+import 'package:phytoscan/address/service/address_services.dart';
 import 'package:phytoscan/common/custom_textfield.dart';
 import 'package:phytoscan/globalvariable.dart';
 import 'package:phytoscan/providers/userprovider.dart';
+
+import 'package:provider/provider.dart';
 
 class AddressScreen extends StatefulWidget {
   static const String routeName = '/address';
@@ -27,19 +27,19 @@ class _AddressScreenState extends State<AddressScreen> {
   final _addressFormKey = GlobalKey<FormState>();
 
   String addressToBeUsed = "";
- // List<PaymentItem> paymentItems = [];
+  List<PaymentItem> paymentItems = [];
   final AddressServices addressServices = AddressServices();
 
   @override
   void initState() {
     super.initState();
-    // paymentItems.add(
-    //   PaymentItem(
-    //     amount: widget.totalAmount,
-    //     label: 'Total Amount',
-    //     status: PaymentItemStatus.final_price,
-    //   ),
-    // );
+    paymentItems.add(
+      PaymentItem(
+        amount: widget.totalAmount,
+        label: 'Total Amount',
+        status: PaymentItemStatus.final_price,
+      ),
+    );
   }
 
   @override
@@ -99,7 +99,7 @@ class _AddressScreenState extends State<AddressScreen> {
     } else if (addressFromProvider.isNotEmpty) {
       addressToBeUsed = addressFromProvider;
     } else {
-      showSnackBar(context, 'ERROR');
+      print('ERROR');
     }
   }
 
@@ -191,21 +191,21 @@ class _AddressScreenState extends State<AddressScreen> {
               //   height: 50,
               //   onPressed: () => payPressed(address),
               // ),
-              // const SizedBox(height: 10),
-              // GooglePayButton(
-              //   onPressed: () => payPressed(address),
-              //   paymentConfigurationAsset: 'gpay.json',
-              //   onPaymentResult: onGooglePayResult,
-              //   paymentItems: paymentItems,
-              //   height: 50,
-              //   style: GooglePayButtonStyle.black,
-              //   type: GooglePayButtonType.buy,
-            //     margin: const EdgeInsets.only(top: 15),
-            //     loadingIndicator: const Center(
-            //       child: CircularProgressIndicator(),
-            //     ),
-            //   ),
-             ],
+              const SizedBox(height: 10),
+              GooglePayButton(
+                onPressed: () => payPressed(address),
+                paymentConfigurationAsset: 'gpay.json',
+                onPaymentResult: onGooglePayResult,
+                paymentItems: paymentItems,
+                height: 50,
+                // style: GooglePayButtonStyle.black,
+                type: GooglePayButtonType.buy,
+                margin: const EdgeInsets.only(top: 15),
+                loadingIndicator: const Center(
+                  child: CircularProgressIndicator(),
+                ),
+              ),
+            ],
           ),
         ),
       ),

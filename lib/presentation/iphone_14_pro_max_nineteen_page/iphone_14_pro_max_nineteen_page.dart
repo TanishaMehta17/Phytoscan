@@ -17,9 +17,9 @@ import 'package:phytoscan/widgets/app_bar/custom_app_bar.dart';
 import 'package:phytoscan/widgets/custom_search_view.dart';
 import 'package:provider/provider.dart';
 import 'package:badges/badges.dart' as badges;
-import 'package:qr_scanner/qr_scanner.dart';
-
-
+import 'package:qr_scanner/qr_scanner.dart' as scanner;
+import 'package:permission_handler/permission_handler.dart';
+import 'package:qr_flutter/qr_flutter.dart';
 
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -43,10 +43,12 @@ class _Iphone14ProMaxNineteenPage extends State<Iphone14ProMaxNineteenPage> {
   }
 
   fetchAllProducts() async {
-    products = await adminServices.fetchAllProducts(context,onSuccess: () {
-      setState(() {});
-    },);
-    
+    products = await adminServices.fetchAllProducts(
+      context,
+      onSuccess: () {
+        setState(() {});
+      },
+    );
   }
 
   void deleteProduct(Product product, int index) {
@@ -60,31 +62,30 @@ class _Iphone14ProMaxNineteenPage extends State<Iphone14ProMaxNineteenPage> {
     );
   }
 
-  void navigateToAddProduct() {
-    Navigator.pushNamed(context, AddProductScreen.routeName).then((result){
-      print("HELLO123");
-    fetchAllProducts();
+  Future _qrScanner() async {
+    // print("qr");
+    var cameraStatus = await Permission.camera.status;
+    if (cameraStatus.isGranted) {
+      scanner.FlutterQrScanner qrdata = scanner.FlutterQrScanner();
+      //print(qrdata);
+    } else {
+      var isgrant = await Permission.camera.request();
+      if (isgrant.isGranted) {
+        scanner.FlutterQrScanner qrdata = scanner.FlutterQrScanner();
+        //print(qrdata);
+      }
+    }
+  }
 
+  void navigateToAddProduct() {
+    Navigator.pushNamed(context, AddProductScreen.routeName).then((result) {
+      print("HELLO123");
+      fetchAllProducts();
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    
-  //            Future _qrScanner() async {
-  //     // print("qr");
-  //   var cameraStatus = await Permission.camera.status;
-  //   if (cameraStatus.isGranted) {
-  //     scanner.FlutterQrScanner qrdata = scanner.FlutterQrScanner();
-  //     //print(qrdata);
-  //   } else {
-  //     var isgrant = await Permission.camera.request();
-  //     if (isgrant.isGranted) {
-  //       scanner.FlutterQrScanner qrdata = scanner.FlutterQrScanner();
-  //       //print(qrdata);
-  //     }
-  //   }
-  // }
     final userCartLen = context.watch<UserProvider>().user.cart.length;
     List<Widget> pages = [
       const Iphone14ProMaxNineteenPage(),
@@ -100,7 +101,8 @@ class _Iphone14ProMaxNineteenPage extends State<Iphone14ProMaxNineteenPage> {
         // Navigate to the home page
         Navigator.pushReplacement(
           context,
-          MaterialPageRoute(builder: (context) =>const Iphone14ProMaxNineteenPage()),
+          MaterialPageRoute(
+              builder: (context) => const Iphone14ProMaxNineteenPage()),
         );
       } else if (page == 1) {
         // Navigate to the account page
@@ -111,9 +113,6 @@ class _Iphone14ProMaxNineteenPage extends State<Iphone14ProMaxNineteenPage> {
         );
       }
     }
-
-
-
 
     return products == null
         ? const Loader()
@@ -188,14 +187,14 @@ class _Iphone14ProMaxNineteenPage extends State<Iphone14ProMaxNineteenPage> {
                           height: 150,
                         ),
                       ),
-                     const SizedBox(
+                      const SizedBox(
                           height:
                               40), // Add some spacing between CarouselSlider and GridView
                       GridView.builder(
                         shrinkWrap:
                             true, // Add this line to make the GridView scrollable
                         physics:
-                         const   NeverScrollableScrollPhysics(), // Prevent GridView from scrolling
+                            const NeverScrollableScrollPhysics(), // Prevent GridView from scrolling
                         itemCount: products!.length,
                         gridDelegate:
                             const SliverGridDelegateWithFixedCrossAxisCount(
@@ -245,8 +244,8 @@ class _Iphone14ProMaxNineteenPage extends State<Iphone14ProMaxNineteenPage> {
               ),
             ),
             floatingActionButton: FloatingActionButton(
-              backgroundColor:const Color(0xFFE0EFE2),
-              child:  Icon(Icons.add),
+              backgroundColor: const Color(0xFFE0EFE2),
+              child: Icon(Icons.add),
               onPressed: navigateToAddProduct,
               tooltip: 'Add a Product',
             ),
@@ -296,10 +295,10 @@ class _Iphone14ProMaxNineteenPage extends State<Iphone14ProMaxNineteenPage> {
   Widget _buildContainer(String title, String imagePath, String textContent) {
     return Container(
       decoration: BoxDecoration(
-        color:const Color(0xFFE0EFE2),
+        color: const Color(0xFFE0EFE2),
         borderRadius: BorderRadius.circular(18.0),
       ),
-      margin:const EdgeInsets.symmetric(horizontal: 5.0),
+      margin: const EdgeInsets.symmetric(horizontal: 5.0),
       child: ClipRRect(
         borderRadius:
             BorderRadius.circular(18.0), // Same radius for outer container
@@ -311,22 +310,23 @@ class _Iphone14ProMaxNineteenPage extends State<Iphone14ProMaxNineteenPage> {
               width: 140.0, // Width of the image
               fit: BoxFit.cover,
             ),
-           const SizedBox(width: 15),
+            const SizedBox(width: 15),
             Padding(
               padding: const EdgeInsets.only(top: 10.0),
               child: Column(
                 children: [
                   Text(
                     title,
-                    style: const TextStyle(fontSize: 25, color: Color(0xFF0F3E12)),
+                    style:
+                        const TextStyle(fontSize: 25, color: Color(0xFF0F3E12)),
                   ),
                   Text(
                     textContent,
                     style: TextStyle(
                         fontSize: 15, color: Colors.black12.withOpacity(0.35)),
                   ),
-                 const SizedBox(height: 20),
-                 const Row(
+                  const SizedBox(height: 20),
+                  const Row(
                     children: [
                       SizedBox(width: 20),
                       CircleAvatar(
@@ -351,7 +351,7 @@ class _Iphone14ProMaxNineteenPage extends State<Iphone14ProMaxNineteenPage> {
                         ),
                       ),
                       SizedBox(width: 10),
-                       CircleAvatar(
+                      CircleAvatar(
                         backgroundColor:
                             Color(0xFF5EDB7D), // Green background color
                         radius: 15, // Adjust the size of the CircleAvatar
@@ -362,7 +362,7 @@ class _Iphone14ProMaxNineteenPage extends State<Iphone14ProMaxNineteenPage> {
                           size: 22, // Icon size
                         ),
                       ),
-                       SizedBox(width: 10),
+                      SizedBox(width: 10),
                       CircleAvatar(
                         backgroundColor:
                             Color(0xFF5EDB7D), // Green background color
@@ -385,41 +385,27 @@ class _Iphone14ProMaxNineteenPage extends State<Iphone14ProMaxNineteenPage> {
   }
 
   PreferredSizeWidget _buildAppBar(BuildContext context) {
-  //        Future _qrScanner() async {
-  //     // print("qr");
-  //   var cameraStatus = await Permission.camera.status;
-  //   if (cameraStatus.isGranted) {
-  //     scanner.FlutterQrScanner qrdata = scanner.FlutterQrScanner();
-  //     //print(qrdata);
-  //   } else {
-  //     var isgrant = await Permission.camera.request();
-  //     if (isgrant.isGranted) {
-  //       scanner.FlutterQrScanner qrdata = scanner.FlutterQrScanner();
-  //       //print(qrdata);
-  //     }
-  //   }
-  // }
-      void logOut(BuildContext context) async {
-    try {
-      SharedPreferences sharedPreferences =
-          await SharedPreferences.getInstance();
-      await sharedPreferences.setString('x-auth-token', '');
-      
-     Navigator.pushNamedAndRemoveUntil(
-  context,
-  AppRoutes.iphone14ProMaxOneScreen,
-  (route) => false,
-);
+    void logOut(BuildContext context) async {
+      try {
+        SharedPreferences sharedPreferences =
+            await SharedPreferences.getInstance();
+        await sharedPreferences.setString('x-auth-token', '');
 
-    } catch (e) {
-      print( e.toString());
+        Navigator.pushNamedAndRemoveUntil(
+          context,
+          AppRoutes.iphone14ProMaxOneScreen,
+          (route) => false,
+        );
+      } catch (e) {
+        print(e.toString());
+      }
     }
-  }
+
     return CustomAppBar(
-      height: 115.v,
-      leadingWidth: 110.h,
+      height: 75.v,
+      leadingWidth: 75.h,
       leading: AppbarLeadingImageOne(
-        imagePath: ImageConstant.imgEllipse1184x81,
+        imagePath: ImageConstant.imgRectangle8,
         margin: EdgeInsets.only(left: 29.h, top: 2.v),
       ),
       title: Container(
@@ -431,10 +417,10 @@ class _Iphone14ProMaxNineteenPage extends State<Iphone14ProMaxNineteenPage> {
           children: [
             AppbarTitle(
               text: "Phytoscan",
-              margin: EdgeInsets.only(left: 6.h, right: 7.h, bottom: 17.v),
+              margin: EdgeInsets.only(left: 1.h, right: 7.h, bottom: 17.v),
             ),
             AppbarSubtitleOne(
-              text: "Find your plants here",
+              text: "Find your plants ",
               margin: EdgeInsets.only(top: 44.v),
             ),
           ],
@@ -442,31 +428,35 @@ class _Iphone14ProMaxNineteenPage extends State<Iphone14ProMaxNineteenPage> {
       ),
       actions: [
         Container(
-                margin:const  EdgeInsets.only(top: 10, right: 10),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(5),
-                  color:const Color(0xFFE7EFE7),
-                ),
-                width: 40,
-                height: 40,
-                child: const Icon(Icons.qr_code),
-               //  IconButton(onPressed: ()=> _qrScanner(), icon: Icon(Icons.qr_code),)
-              ),
-               Container(
-                margin: const EdgeInsets.only(top: 10, right: 10),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(5),
-                  color:const Color(0xFFE7EFE7),
-                ),
-                width: 40,
-                height: 40,
-                child: IconButton(icon :Icon(Icons.logout_rounded),
-                onPressed:(){
-                    logOut(context);
-                }),
-                
-                // Space between containers
-              ),
+            margin: const EdgeInsets.only(top: 2, right: 10),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(5),
+              color: const Color(0xFFE7EFE7),
+            ),
+            width: 40,
+            height: 40,
+            child: IconButton(
+              onPressed: () => _qrScanner,
+              icon: Icon(Icons.qr_code),
+            )),
+        Container(
+          margin: const EdgeInsets.only(
+            top: 2,
+          ),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(5),
+            color: const Color(0xFFE7EFE7),
+          ),
+          width: 40,
+          height: 40,
+          child: IconButton(
+              icon: Icon(Icons.logout_rounded),
+              onPressed: () {
+                logOut(context);
+              }),
+
+          //  Space between containers
+        ),
         Container(
           height: 40.adaptSize,
           width: 40.adaptSize,
