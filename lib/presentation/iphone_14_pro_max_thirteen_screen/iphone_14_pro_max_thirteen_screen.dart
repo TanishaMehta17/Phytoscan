@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:phytoscan/cart/cart_screen.dart';
-//
+import 'package:phytoscan/loader.dart';
 import 'package:phytoscan/globalvariable.dart';
 import 'package:phytoscan/core/app_export.dart';
 import 'package:phytoscan/models/product.dart';
@@ -32,8 +32,9 @@ List<Product>? products;
   GlobalKey<NavigatorState> navigatorKey = GlobalKey();
    @override
   void initState() {
-    super.initState();
+    
     fetchAllProducts();
+    super.initState();
   }
   fetchAllProducts() async {
     products = await productServices.fetchAllProducts(context,onSuccess: () {
@@ -116,8 +117,9 @@ List<Product>? products;
       print( e.toString());
     }
   }
- final user = context.watch<UserProvider>().user;
-    return SafeArea(
+//  final user = context.watch<UserProvider>().user;
+ return products==null?const Loader():
+     SafeArea(
       child: Scaffold(
           appBar: AppBar(
             title: Container(
