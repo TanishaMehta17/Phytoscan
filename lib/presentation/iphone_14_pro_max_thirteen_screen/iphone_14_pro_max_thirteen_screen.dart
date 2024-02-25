@@ -200,21 +200,9 @@ class _Iphone14ProMaxThirteenScreenState
                 width: 40,
                 height: 40,
                 child:// const Icon(Icons.qr_code),
-                 IconButton(onPressed: ()=> navigateToCamera(), icon: Icon(Icons.qr_code),)
+                 IconButton(onPressed: ()=> navigateToCamera(), icon: Icon(Icons.camera_alt),)
               ),
-            Container(
-                  margin: const EdgeInsets.only(top: 10, right: 10),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(5),
-                    color: const Color(0xFFE7EFE7),
-                  ),
-                  width: 40,
-                  height: 40,
-                  child: // const Icon(Icons.qr_code),
-                      IconButton(
-                    onPressed: () => navigateToCamera(),
-                    icon: Icon(Icons.qr_code),
-                  )),
+            
 
               Container(
                 margin: const EdgeInsets.only(top: 10, right: 10),

@@ -6,7 +6,7 @@ const { Product } = require("../models/product");
 const User = require("../models/user");
 const {Plant}=require("../models/plant");
 
-userRouter.post("/api/add-to-cart", auth, async (req, res) => {
+userRouter.post("/api/add-to-cart", auth,async (req, res) => {
   try {
     const { id } = req.body;
     console.log(id)
@@ -126,7 +126,7 @@ userRouter.get("/api/orders/me", auth, async (req, res) => {
   }
 });
 var i=0;
-userRouter.get("/auth/get-products",auth, async (req, res) => {
+userRouter.get("/auth/get-products", async (req, res) => {
   try {
     //const {user}=req.body;
    // console.log(user)
@@ -157,9 +157,12 @@ userRouter.post("/auth/predict-image",async (req, res) => {
     if(data){
       console.log(data.class)
       const details=await Plant.findOne({"ORIGINAL_NAME":data.class});
-      res.status(200).json({"isSuccess":true,"data":details});
+      // details["link"]=url;
+      const temp={"data":details,"link":url}
+      console.log(temp)
+      res.status(200).json(temp);
     }else{
-      res.status(400).json({"isSuccess":false,"data":"Unable to fetch details"})
+      res.status(400).json({"data":"Unable to fetch details"})
     }
   } catch (e) {
     res.status(500).json({ error: e.message });

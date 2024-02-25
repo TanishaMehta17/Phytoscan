@@ -1,6 +1,7 @@
 // import 'dart:js';
 
 import 'package:flutter/material.dart';
+import 'package:phytoscan/api.dart';
 
 import 'package:phytoscan/camera.dart';
 
@@ -72,6 +73,7 @@ class AppRoutes {
       '/iphone_14_pro_max_three_screen.dart';
 
   static const String otp = '/otp.dart';
+  static const String api='/api';
   static const String appNavigationScreen = '/app_navigation_screen';
   static const String iphone14ProMaxSeventeenScreen =
       '/iphone_14_pro_max_seventeen_screen';
@@ -163,7 +165,7 @@ class AppRoutes {
 
   static Map<String, WidgetBuilder> routes = {
 
-    
+    api:(context)=>Api(),
    // iphone14ProMaxFortynineScreen: (context) => Iphone14ProMaxFortynineScreen(),
    // iphone14ProMaxSeventeenScreen: (context) => Iphone14ProMaxSeventeenScreen(),
     camera:(context)=>CameraScreen(),

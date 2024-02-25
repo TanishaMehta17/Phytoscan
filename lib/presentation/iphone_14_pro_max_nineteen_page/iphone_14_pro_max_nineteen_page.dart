@@ -17,9 +17,9 @@ import 'package:phytoscan/widgets/app_bar/custom_app_bar.dart';
 import 'package:phytoscan/widgets/custom_search_view.dart';
 import 'package:provider/provider.dart';
 import 'package:badges/badges.dart' as badges;
-import 'package:qr_scanner/qr_scanner.dart' as scanner;
+
 import 'package:permission_handler/permission_handler.dart';
-import 'package:qr_flutter/qr_flutter.dart';
+
 
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -61,25 +61,14 @@ class _Iphone14ProMaxNineteenPage extends State<Iphone14ProMaxNineteenPage> {
       },
     );
   }
-
-  Future _qrScanner() async {
-    // print("qr");
-    var cameraStatus = await Permission.camera.status;
-    if (cameraStatus.isGranted) {
-      scanner.FlutterQrScanner qrdata = scanner.FlutterQrScanner();
-      //print(qrdata);
-    } else {
-      var isgrant = await Permission.camera.request();
-      if (isgrant.isGranted) {
-        scanner.FlutterQrScanner qrdata = scanner.FlutterQrScanner();
-        //print(qrdata);
-      }
+ void navigateToCamera(){
+      Navigator.pushNamed(context, AppRoutes.camera);
     }
-  }
+
 
   void navigateToAddProduct() {
     Navigator.pushNamed(context, AddProductScreen.routeName).then((result) {
-      print("HELLO123");
+      
       fetchAllProducts();
     });
   }
@@ -95,7 +84,7 @@ class _Iphone14ProMaxNineteenPage extends State<Iphone14ProMaxNineteenPage> {
     double bottomBarWidth = 42;
     double bottomBarBorderWidth = 5;
     int _page = 0;
-
+  
     void updatePage(int page) {
       if (page == 0) {
         // Navigate to the home page
@@ -180,7 +169,7 @@ class _Iphone14ProMaxNineteenPage extends State<Iphone14ProMaxNineteenPage> {
                         ],
                         options: CarouselOptions(
                           autoPlay: true,
-                          autoPlayInterval: Duration(seconds: 3),
+                          autoPlayInterval: const Duration(seconds: 3),
                           aspectRatio: 1.0,
                           enlargeCenterPage: true,
                           viewportFraction: 1,
@@ -294,6 +283,8 @@ class _Iphone14ProMaxNineteenPage extends State<Iphone14ProMaxNineteenPage> {
 
   Widget _buildContainer(String title, String imagePath, String textContent) {
     return Container(
+
+      
       decoration: BoxDecoration(
         color: const Color(0xFFE0EFE2),
         borderRadius: BorderRadius.circular(18.0),
@@ -435,9 +426,9 @@ class _Iphone14ProMaxNineteenPage extends State<Iphone14ProMaxNineteenPage> {
             ),
             width: 40,
             height: 40,
-            child: IconButton(
-              onPressed: () => _qrScanner,
-              icon: Icon(Icons.qr_code),
+            child:  IconButton(
+              onPressed: () => navigateToCamera(),
+              icon: const Icon(Icons.camera_alt),
             )),
         Container(
           margin: const EdgeInsets.only(
@@ -450,7 +441,7 @@ class _Iphone14ProMaxNineteenPage extends State<Iphone14ProMaxNineteenPage> {
           width: 40,
           height: 40,
           child: IconButton(
-              icon: Icon(Icons.logout_rounded),
+              icon: const Icon(Icons.logout_rounded),
               onPressed: () {
                 logOut(context);
               }),

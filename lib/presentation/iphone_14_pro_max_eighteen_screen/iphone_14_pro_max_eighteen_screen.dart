@@ -6,15 +6,12 @@ import 'package:phytoscan/core/app_export.dart';
 import 'package:phytoscan/globalvariable.dart';
 import 'package:phytoscan/presentation/iphone_14_pro_max_nineteen_page/iphone_14_pro_max_nineteen_page.dart';
 import 'package:phytoscan/providers/userprovider.dart';
-import 'package:phytoscan/widgets/custom_bottom_bar.dart';
-import 'package:phytoscan/widgets/custom_elevated_button.dart';
-import 'package:phytoscan/widgets/custom_icon_button.dart';
-import 'package:phytoscan/widgets/custom_text_form_field.dart';
+
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class Iphone14ProMaxEighteenScreen extends StatefulWidget {
-  Iphone14ProMaxEighteenScreen({Key? key}) : super(key: key);
+ const Iphone14ProMaxEighteenScreen({Key? key}) : super(key: key);
 
   @override
   State<Iphone14ProMaxEighteenScreen> createState() =>
@@ -155,31 +152,41 @@ class _Iphone14ProMaxEighteenScreenState
             child: Stack(
               children: [
                 selectedImagePath.isNotEmpty
-                    ? Container(
+                    ? ClipOval(
+                      child: Image.file(
+                        File(
+                            selectedImagePath), // Load selected image from file
                         height: 187.adaptSize,
                         width: 187.adaptSize,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(93.h),
-                          image: DecorationImage(
-                            image: FileImage(File(selectedImagePath)),
-                            fit: BoxFit.cover,
-                          ),
-                        ),
-                      )
-                    : SizedBox(),
-                GestureDetector(
-                  onTap: _pickImageFromGallery,
-                  child: Container(
-                    height: 187.adaptSize,
-                    width: 187.adaptSize,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(93.h),
-                      color: Colors.grey[200],
+                        fit: BoxFit.cover,
+                      ),
+                    )
+                     : CustomImageView(
+                      imagePath: ImageConstant.imgEllipse9187x187,
+                      height: 187.adaptSize,
+                      width: 187.adaptSize,
+                      radius: BorderRadius.circular(93.h),
+                      alignment: Alignment.bottomCenter,
                     ),
-                    child: Icon(Icons.camera_alt,
-                        size: 50, color: Colors.grey[700]),
+              Positioned(
+                bottom: 0,
+                //right: 120,
+                left: 110,
+                child: Container(
+                  height: 50,
+                  width: 50,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(50),
+                    color: Color(0xFFE0EFE2),
+                  ),
+                  child: IconButton(
+                    icon: Icon(Icons.camera_alt_rounded),
+                    onPressed: () {
+                      _pickImageFromGallery();
+                    },
                   ),
                 ),
+              ),
               ],
             ),
           ),

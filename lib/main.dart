@@ -58,7 +58,7 @@ class _MyAppState extends State<MyApp> {
           home: Provider.of<UserProvider>(context).user.token.isNotEmpty?(
            Provider.of<UserProvider>(context).user.type=="user"?const Iphone14ProMaxThirteenScreen(): Iphone14ProMaxNineteenPage())
           : const Iphone14ProMaxOneScreen(),
-          // home: const Iphone14ProMaxThirteenScreen(),
+           //home: const Iphone14ProMaxThirteenScreen(),
         );
       },
     );
