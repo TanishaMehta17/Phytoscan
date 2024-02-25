@@ -6,12 +6,11 @@ const adminRouter = require("./routes/admin");
 const authRouter = require("./routes/auth");
 const productRouter = require("./routes/product");
 const userRouter = require("./routes/user");
-
+require("dotenv").config();
 // INIT
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT;
 const app = express();
-const DB =
-  "mongodb+srv://mohitbansal:mohit123@cluster0.ydqhs8k.mongodb.net/?retryWrites=true&w=majority";
+const DB =process.env.DB_URI;
 
 // middleware
 app.use(express.json());

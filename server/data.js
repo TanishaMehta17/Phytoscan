@@ -2,20 +2,16 @@ const fs = require('fs');
 const csv = require('csv-parser');
 const mongoose = require('mongoose');
 const {Plant} = require('./models/plant');
-console.log("ll");
-
-const csvFilePath = 'C:/Users/ASUS/Downloads/s.csv';
-const databaseURL = 'mongodb+srv://mohitbansal:mohit123@cluster0.ydqhs8k.mongodb.net/test?retryWrites=true&w=majority';
-const databaseName = 'amazon_clone';
+require("dotenv").config();
 
 async function fun() {
     try {
-        const conn = await mongoose.connect(databaseURL);
+        const conn = await mongoose.connect(process.env.DB_URI);
         console.log("Connection Successful");
 
         const tempObj = [];
 
-        fs.createReadStream(csvFilePath)
+        fs.createReadStream(process.env.PLANT_DATA_FILE)
             .pipe(csv())
             .on('data', (row) => {
                 tempObj.push(row);

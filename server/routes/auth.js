@@ -8,7 +8,7 @@ const nodemailer = require("nodemailer");
 const otpGenerator = require("otp-generator");
 const session = require("express-session");
 const crypto = require("crypto");
-// const Admin = require()
+
 const app = express();
 // SIGN UP
 app.use(
@@ -26,8 +26,8 @@ const transporter = nodemailer.createTransport({
     host: process.env.SMTP_HOST,
     port: 3000,
     auth: {
-        user: "bansalmohit123654@gmail.com",
-        pass: "kuzo snfe aqdp vlkb",
+        user: process.env.EMAIL_ID,
+        pass: process.env.EMAIL_PASS,
     },
 });
 // Set up your email configuration
@@ -36,7 +36,6 @@ const transporter = nodemailer.createTransport({
 authRouter.post("/register", async (req, res) => {
     try {
         const { username, email, number, password, confirmpas } = req.body;
-
         const existingUser = await User.findOne({ email });
         if (existingUser) {
           return res
@@ -83,7 +82,7 @@ authRouter.post("/api/signup", async (req, res) => {
         const { otp1,email } = req.body;
 
         temp=otpMap.get(email)
-        console.log()
+        // console.log()
 
         if (otp1 != temp.OTP) {
             return res.status(400).json({ msg: "OTP doest not Match" });
@@ -112,7 +111,7 @@ authRouter.post("/api/signin", async (req, res) => {
             return res.status(400).json({ msg: "Incorrect password." });
         }
          console.log("sign");
-        const token = jwt.sign({ id: user._id }, "passwordKey");
+        const token = jwt.sign({ id: user._id }, process.env.SECRET_KEY);
         delete user["password"]
         delete user["confirmpas"]
         user["token"]=token
@@ -132,7 +131,7 @@ authRouter.post("/tokenIsValid", async (req, res) => {
     try {
         const token = req.header("x-auth-token");
         if (!token) return res.json(false);
-        const verified = jwt.verify(token, "passwordKey");
+        const verified = jwt.verify(token, process.env.SECRET_KEY);
         if (!verified) return res.json(false);
 
         const user = await User.findById(verified.id);
