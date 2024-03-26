@@ -2,6 +2,64 @@
 
 A new Flutter project.
 
+# Project Title
+ phytoscan is a plant detection app which is also an e-commerce app where consumers can buy plants and traders can sell their plants
+## Environment Variables
+
+To run this project, you will need to add the following environment variables to your .env file
+
+`API_KEY`
+`MONGO DB URI`
+`PLANT_DATA_FILE.csv`
+`PORT`
+`EMAIL_ID`
+`EMAIL_PASSWORD`
+
+
+## Authors
+
+- [@mohitbansal]([https://www.github.com/octokatherine](https://github.com/bansalmohit12])
+
+
+## Run Locally
+
+Clone the project
+
+```bash
+  git clone https://link-to-project
+```
+
+Go to the project directory
+
+```bash
+  cd my-project
+```
+
+To start the flutter app first install the dependencies
+```bash
+flutter pub get
+```
+Select Android Emulator and Run it without Debbuging
+
+Install dependencies
+```bash
+  npm install
+```
+Start the server
+```bash
+  npm run start
+```
+Upload csv data to database
+```bash
+  node data.js
+```
+Start flask server
+```tf
+  python m2.py
+```
+
+
+
 ## Getting Started
 
 This project is a starting point for a Flutter application.
