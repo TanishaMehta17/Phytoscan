@@ -543,96 +543,94 @@ class _ContainerCarouselState extends State<ContainerCarousel> {
   }
 
   Widget _buildContainer(String title, String imagePath, String textContent) {
-    return Container(
-      decoration: BoxDecoration(
-        color: const Color(0xFFE0EFE2),
-        borderRadius: BorderRadius.circular(18.0),
-      ),
-      margin: const EdgeInsets.symmetric(horizontal: 5.0),
-      child: ClipRRect(
-        borderRadius:
-            BorderRadius.circular(18.0), // Same radius for outer container
-        child: Row(
-          children: [
-            Image.asset(
-              imagePath,
-              height: 150.0, // Same height as the outer container
-              width: 140.0, // Width of the image
-              fit: BoxFit.cover,
-            ),
-            const SizedBox(width: 15),
-            Padding(
-              padding: const EdgeInsets.only(top: 10.0),
-              child: Column(
-                children: [
-                  Text(
-                    title,
-                    style:
-                        const TextStyle(fontSize: 25, color: Color(0xFF0F3E12)),
-                  ),
-                  Text(
-                    textContent,
-                    style: TextStyle(
-                        fontSize: 15, color: Colors.black12.withOpacity(0.35)),
-                  ),
-                  const SizedBox(height: 20),
-                  const Row(
-                    children: [
-                      SizedBox(width: 20),
-                      CircleAvatar(
-                        backgroundColor:
-                            Color(0xFF5EDB7D), // Green background color
-                        radius: 15, // Adjust the size of the CircleAvatar
-                        child: Icon(
-                          Icons.wb_sunny_outlined, // Icon to be displayed
-                          color: Colors.black, // Icon color
-                          size: 20, // Icon size
-                        ),
-                      ),
-                      SizedBox(width: 10),
-                      CircleAvatar(
-                        backgroundColor:
-                            Color(0xFF5EDB7D), // Green background color
-                        radius: 15, // Adjust the size of the CircleAvatar
-                        child: Icon(
-                          Icons.water_drop_outlined, // Icon to be displayed
-                          color: Colors.black, // Icon color
-                          size: 20, // Icon size
-                        ),
-                      ),
-                      SizedBox(width: 10),
-                      CircleAvatar(
-                        backgroundColor:
-                            Color(0xFF5EDB7D), // Green background color
-                        radius: 15, // Adjust the size of the CircleAvatar
-                        child: Icon(
-                          Icons
-                              .thermostat_auto_outlined, // Icon to be displayed
-                          color: Colors.black, // Icon color
-                          size: 22, // Icon size
-                        ),
-                      ),
-                      SizedBox(width: 10),
-                      CircleAvatar(
-                        backgroundColor:
-                            Color(0xFF5EDB7D), // Green background color
-                        radius: 15, // Adjust the size of the CircleAvatar
-                        child: Icon(
-                          Icons.collections_outlined, // Icon to be displayed
-                          color: Colors.black, // Icon color
-                          size: 20, // Icon size
-                        ),
-                      ),
-                    ],
-                  )
-                ],
-              ),
-            ),
-          ],
+  return Container(
+    decoration: BoxDecoration(
+      color: const Color(0xFFE0EFE2),
+      borderRadius: BorderRadius.circular(18.0),
+    ),
+    margin: const EdgeInsets.symmetric(horizontal: 5.0),
+    child: Row(
+      children: [
+        ClipRRect(
+          borderRadius: BorderRadius.circular(18.0),
+          child: Image.asset(
+            imagePath,
+            height: 150.0,
+            width: 140.0,
+            fit: BoxFit.cover,
+          ),
         ),
-      ),
-    );
-  }
+        const SizedBox(width: 15),
+        Expanded(
+          child: Padding(
+            padding: const EdgeInsets.only(top: 10.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  title,
+                  style: const TextStyle(fontSize: 25, color: Color(0xFF0F3E12)),
+                ),
+                SizedBox(height: 5), // Adjust the spacing as needed
+                Text(
+                  textContent + "--",
+                  style: TextStyle(
+                    fontSize: 15,
+                    color: Colors.black12.withOpacity(0.35),
+                  ),
+                ),
+                const SizedBox(height: 20),
+                Row(
+                  children: [
+                    CircleAvatar(
+                      backgroundColor: Color(0xFF5EDB7D),
+                      radius: 15,
+                      child: Icon(
+                        Icons.wb_sunny_outlined,
+                        color: Colors.black,
+                        size: 20,
+                      ),
+                    ),
+                    SizedBox(width: 10),
+                    CircleAvatar(
+                      backgroundColor: Color(0xFF5EDB7D),
+                      radius: 15,
+                      child: Icon(
+                        Icons.water_drop_outlined,
+                        color: Colors.black,
+                        size: 20,
+                      ),
+                    ),
+                    SizedBox(width: 10),
+                    CircleAvatar(
+                      backgroundColor: Color(0xFF5EDB7D),
+                      radius: 15,
+                      child: Icon(
+                        Icons.thermostat_auto_outlined,
+                        color: Colors.black,
+                        size: 22,
+                      ),
+                    ),
+                    SizedBox(width: 10),
+                    CircleAvatar(
+                      backgroundColor: Color(0xFF5EDB7D),
+                      radius: 15,
+                      child: Icon(
+                        Icons.collections_outlined,
+                        color: Colors.black,
+                        size: 20,
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
+        ),
+      ],
+    ),
+  );
+}
 
   Widget _buildContainers(
       String title1, String imagePath1, String title2, String imagePath2) {
