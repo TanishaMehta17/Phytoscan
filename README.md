@@ -18,7 +18,7 @@ To run this project, you will need to add the following environment variables to
 
 ## Authors
 
-- [@mohitbansal]([https://www.github.com/bansalmohit123](https://github.com/bansalmohit123))
+- [@mohitbansal](https://github.com/bansalmohit123)
 
 
 ## Run Locally
@@ -26,13 +26,13 @@ To run this project, you will need to add the following environment variables to
 Clone the project
 
 ```bash
-  git clone https://link-to-project
+  git clone https://github.com/bansalmohit123/phytoscan
 ```
 
 Go to the project directory
 
 ```bash
-  cd my-project
+  cd phytoscan
 ```
 
 To start the flutter app first install the dependencies
