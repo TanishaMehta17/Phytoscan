@@ -18,7 +18,7 @@ To run this project, you will need to add the following environment variables to
 
 ## Authors
 
-- [@mohitbansal]([https://www.github.com/octokatherine](https://github.com/bansalmohit12])
+- [@mohitbansal]([https://www.github.com/bansalmohit123](https://github.com/bansalmohit123])
 
 
 ## Run Locally
